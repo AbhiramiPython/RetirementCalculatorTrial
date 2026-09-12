@@ -81,12 +81,36 @@ All rates above are illustrative reference points as of 2026 and change over tim
 
 ## About the safety-net check
 
-- **Emergency fund target** = your chosen number of months (default 6) × current monthly expenses.
-- **Life cover benchmark** = 15 × annual expenses — a simple rule of thumb used because this tool doesn't collect income or number of dependents. A proper **Human Life Value** calculation from an advisor will be more accurate.
-- **Health cover benchmark** = a flat ₹10 lakh baseline. Metro cities and family floater plans often need more.
+This section is a quick sanity check on basic protections — the idea being that investing aggressively for retirement while missing these can backfire (e.g. having to break a long-term investment early because of an emergency). Each of the three checks below works the same way: compute a target/benchmark, compare it to what you currently have, and show either "Covered/Adequate" or the exact ₹ **Gap**.
+
+### 1. Emergency fund
+```
+Target = months you choose (default 6) × current monthly expenses
+Gap    = Target − what you currently have saved
+```
+**Worked example** — ₹60,000/month expenses, 6-month target, ₹1,00,000 currently saved:
+```
+Target = 6 × 60,000 = ₹3,60,000
+Gap    = 3,60,000 − 1,00,000 = ₹2,60,000
+```
+The app shows this exact breakdown under the status pill, so you can see the formula, not just the final number. If your current fund is ≥ the target, it shows "Covered" instead of a gap.
+
+### 2. Term life insurance
+```
+Benchmark = 15 × annual expenses
+Gap       = Benchmark − your current life cover
+```
+This is a rough stand-in for a proper "Human Life Value" calculation, which normally uses income and number of dependents — this tool only collects expenses, so 15× annual expenses is used as an approximation instead. A real advisor's calculation will be more accurate, especially if you have dependents or large liabilities like a home loan.
+
+### 3. Health insurance
+```
+Baseline = ₹10,00,000 (flat)
+Gap      = Baseline − your current health cover
+```
+This is the least personalized of the three — a general floor often cited for individual cover today. It does not adjust for city, family size, or family floater plans, all of which typically push the real number higher.
 
 These are rough, generic checks — not a personalized insurance needs analysis.
 
 ## General disclaimer
 
-This tool is built for personal and educational use. It is not financial, investment, tax, or insurance advice, and the people who built or shared it are not liable for decisions made using it. Assumptions are simplified (e.g. constant inflation/return rates, flat savings rate elsewhere in the model) and real markets, expenses, and personal circumstances vary. For decisions involving real money, please consult a licensed financial advisor and/or insurance professional.
+This tool is built for personal and educational use. It is not financial, investment, tax, or insurance advice, and the people who built or shared it are not liable for decisions made using it. Assumptions are simplified (e.g. constant inflation/return rates) and real markets, expenses, and personal circumstances vary. For decisions involving real money, please consult a licensed financial advisor and/or insurance professional.

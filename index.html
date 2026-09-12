@@ -583,26 +583,29 @@ function renderSafetyNet() {
 
   const efTarget = exp * efMonths;
   const efEl = $('out-ef');
+  const efFormula = 'Target ' + fmtINR(efTarget) + ' (' + efMonths + ' × ' + fmtINR(exp) + ') − Current ' + fmtINR(ef);
   if (ef >= efTarget) {
-    efEl.innerHTML = '<span class="status-pill status-ok">Covered</span> target ' + fmtINR(efTarget);
+    efEl.innerHTML = '<span class="status-pill status-ok">Covered</span><br><span class="note">' + efFormula + '</span>';
   } else {
-    efEl.innerHTML = '<span class="status-pill status-warn">Gap: ' + fmtINR(efTarget - ef) + '</span>';
+    efEl.innerHTML = '<span class="status-pill status-warn">Gap: ' + fmtINR(efTarget - ef) + '</span><br><span class="note">' + efFormula + '</span>';
   }
 
   const lifeTarget = exp * 12 * 15;
   const lifeEl = $('out-life');
+  const lifeFormula = 'Benchmark ' + fmtINR(lifeTarget) + ' (15 × annual expenses ' + fmtINR(exp * 12) + ') − Current cover ' + fmtINR(lifeCover);
   if (lifeCover >= lifeTarget) {
-    lifeEl.innerHTML = '<span class="status-pill status-ok">Adequate</span> benchmark ' + fmtINR(lifeTarget);
+    lifeEl.innerHTML = '<span class="status-pill status-ok">Adequate</span><br><span class="note">' + lifeFormula + '</span>';
   } else {
-    lifeEl.innerHTML = '<span class="status-pill status-warn">Gap: ' + fmtINR(lifeTarget - lifeCover) + '</span>';
+    lifeEl.innerHTML = '<span class="status-pill status-warn">Gap: ' + fmtINR(lifeTarget - lifeCover) + '</span><br><span class="note">' + lifeFormula + '</span>';
   }
 
   const healthTarget = 1000000;
   const healthEl = $('out-health');
+  const healthFormula = 'Baseline ' + fmtINR(healthTarget) + ' − Current cover ' + fmtINR(healthCover);
   if (healthCover >= healthTarget) {
-    healthEl.innerHTML = '<span class="status-pill status-ok">Meets baseline</span>';
+    healthEl.innerHTML = '<span class="status-pill status-ok">Meets baseline</span><br><span class="note">' + healthFormula + '</span>';
   } else {
-    healthEl.innerHTML = '<span class="status-pill status-warn">Gap: ' + fmtINR(healthTarget - healthCover) + '</span>';
+    healthEl.innerHTML = '<span class="status-pill status-warn">Gap: ' + fmtINR(healthTarget - healthCover) + '</span><br><span class="note">' + healthFormula + '</span>';
   }
 }
 
