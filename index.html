@@ -88,6 +88,22 @@
   .status-ok { background: var(--ok-bg); color: var(--ok-text); }
   .status-warn { background: var(--warn-bg); color: var(--warn-text); }
   .note { font-size: 12px; color: var(--text-secondary); margin-top: 10px; }
+  .tab-bar { display: flex; gap: 8px; margin-bottom: 20px; border-bottom: 1px solid var(--border); }
+  .tab-btn {
+    border: none; background: none; cursor: pointer;
+    font-size: 14px; font-weight: 600; color: var(--text-secondary);
+    padding: 10px 4px; margin-right: 20px; border-bottom: 2px solid transparent;
+  }
+  .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+  .caution {
+    background: #fdecec; border: 1px solid #f3b9b9; color: #7a1f1f;
+    border-radius: var(--radius); padding: 16px 18px; font-size: 13.5px; line-height: 1.6; margin-bottom: 20px;
+  }
+  .caution strong { color: #b02a2a; }
+  .guide-card h2 { font-size: 16px; margin-bottom: 10px; }
+  .guide-card h3 { font-size: 14px; margin: 14px 0 6px; }
 </style>
 </head>
 <body>
@@ -95,6 +111,117 @@
   <h1>Retirement & required income calculator</h1>
   <p class="subtitle">Estimate how your monthly expenses grow with inflation, how big a retirement corpus you'll need, and different ways to save toward it.</p>
 
+  <div class="tab-bar">
+    <button class="tab-btn active" id="tab-btn-guide" onclick="switchTab('guide')">📖 Guide</button>
+    <button class="tab-btn" id="tab-btn-calc" onclick="switchTab('calc')">🧮 Calculator</button>
+  </div>
+
+  <div id="tab-guide" class="tab-panel active">
+    <div class="caution">
+      <strong>⚠ NOT FINANCIAL, LEGAL, TAX, OR INSURANCE ADVICE.</strong> This is a personal, educational calculator built for illustration only. It uses simplified assumptions and generic reference rates that may be outdated or may not apply to your situation. It does not know your income, dependents, debts, goals, or risk tolerance. Nothing here is a recommendation to buy, sell, or hold any financial product. Do not make investment, insurance, or retirement decisions based solely on this tool — consult a licensed financial advisor, tax professional, or insurance professional for advice specific to you. The creator(s) and distributor(s) of this tool accept no liability for outcomes from its use. All calculations run locally in your browser — no data is collected, stored, or transmitted anywhere.
+    </div>
+
+    <div class="card guide-card">
+      <h2>What this calculator does</h2>
+      <div class="formula-list">
+        <p>A single-page, no-signup calculator to estimate:</p>
+        <p>• How your monthly expenses grow with inflation until retirement<br>
+        • How big a retirement corpus you'll need<br>
+        • What monthly saving (flat or step-up) gets you there<br>
+        • How different savings options (SIP, PPF, EPF, FD, RD, NPS, Gold) compare<br>
+        • A quick "safety net" check on emergency fund, life and health insurance</p>
+      </div>
+    </div>
+
+    <div class="card guide-card">
+      <h2>What the result labels mean</h2>
+      <div class="formula-list">
+        <p><strong>Conservative</strong> = assumes markets do worse than your expected return slider (−3 percentage points) → you'd need to save more per month to still hit the same retirement corpus</p>
+        <p><strong>Expected</strong> = uses exactly your slider value</p>
+        <p><strong>Optimistic</strong> = assumes markets do better than your expected return slider (+3 percentage points) → you'd need to save less per month</p>
+      </div>
+    </div>
+
+    <div class="card guide-card">
+      <h2>What the inputs mean</h2>
+      <table>
+        <tr><td style="font-weight:600; width:180px;">Inflation rate</td><td>How fast prices rise every year. If a ₹100 grocery bill costs ₹106 next year, that's 6% inflation. It quietly shrinks what your money can buy over time — future expenses look bigger than today's mainly because of this.</td></tr>
+        <tr><td style="font-weight:600;">Return before retirement</td><td>The yearly growth rate you expect on money you invest while still working. Higher-growth options like equity have historically given more, but with real ups and downs year to year — which is why results are shown as a range, not one number.</td></tr>
+        <tr><td style="font-weight:600;">Return after retirement</td><td>The yearly growth rate on your corpus once you stop earning and start withdrawing from it. Usually kept lower/safer than the pre-retirement return, since large swings are riskier once you depend on the money monthly. The corpus is designed to be fully spent down by your life expectancy age — it's not "live off the interest forever," it's a depleting balance that earns this return along the way.</td></tr>
+        <tr><td style="font-weight:600;">Fixed vs. step-up saving</td><td>A fixed SIP stays the same amount every month. A step-up SIP starts smaller but increases every year (e.g. alongside your salary) — usually more realistic for a growing career, and needs a smaller starting amount than a flat SIP for the same end goal.</td></tr>
+        <tr><td style="font-weight:600;">Simple vs. custom inflation</td><td>Simple applies one inflation rate to all expenses — good if you're unsure. Custom lets you split expenses into General / Education / Healthcare, each with its own inflation rate, since education and healthcare often rise faster than general costs.</td></tr>
+      </table>
+    </div>
+
+    <div class="card guide-card">
+      <h2>How the numbers are calculated</h2>
+      <div class="formula-list">
+        <p><code>Future expense</code> = current expense × (1 + inflation) ^ years to retirement (or the weighted category version, in Custom inflation mode)</p>
+        <p><code>Corpus needed</code> = present value of your inflation-adjusted monthly expenses over your retirement years, discounted at the "real" post-retirement return</p>
+        <p><code>Required saving (fixed)</code> = flat monthly amount, growing at the pre-retirement return, that closes the gap between your current savings' future value and the required corpus</p>
+        <p><code>Required saving (step-up)</code> = starting monthly amount that, increasing every year by your chosen step-up %, closes the same gap</p>
+        <p><code>Required salary today</code> = current expenses + required monthly saving (Expected scenario) — the salary that covers both your current lifestyle and the saving needed to actually hit your retirement corpus</p>
+      </div>
+
+      <h3>How "Monthly expense need" and "Corpus needed" relate</h3>
+      <div class="formula-list">
+        <p><strong>Monthly expense need at retirement</strong> = what your current monthly expenses will have grown into, after inflation, by the time you retire — in future rupees, not today's.</p>
+        <p><strong>Corpus needed</strong> = the lump sum that, invested and earning your "return after retirement" rate, is exactly enough to fund that monthly expense (and its continued inflation) every month from retirement until your life expectancy — depleting to roughly zero right around that age, not before and not perpetually after.</p>
+        <p>Two caveats: (1) if you live past your chosen life expectancy, this corpus could run out — some people set it a bit higher than expected as a buffer. (2) it assumes the post-retirement return holds steady every year, which real markets don't guarantee.</p>
+      </div>
+
+      <h3>How "Compare ways to save" and "Blended portfolio" connect to your corpus target</h3>
+      <div class="formula-list">
+        <p>Their <strong>Total</strong> figure = (the monthly amount you set, grown at that option's/blend's rate) + (your current retirement savings, grown at that same rate over the same years) — compared directly against your corpus target, with a <strong>Covered (+surplus)</strong> or <strong>Shortfall</strong> status shown alongside.</p>
+      </div>
+
+      <h3>Worked example — Required salary today</h3>
+      <div class="formula-list">
+        <p>Expenses ₹60,000/month, Expected required saving ₹68,000/month:<br>
+        <code>Required salary = 60,000 + 68,000 = ₹1,28,000/month</code></p>
+      </div>
+    </div>
+
+    <div class="card guide-card">
+      <h2>About the savings options compared</h2>
+      <table>
+        <tr><td style="font-weight:600; width:170px;">Equity mutual fund (SIP)</td><td>8–14% range. Market-linked, not guaranteed — a long-term historical reference for Indian equity. Any individual year (or stretch of years) can be flat or negative.</td></tr>
+        <tr><td style="font-weight:600;">NPS (equity-heavy)</td><td>8–12% range. Market-linked, mixes equity/debt/govt bonds. Partially locked in, with mandatory annuitization of part of the corpus at exit.</td></tr>
+        <tr><td style="font-weight:600;">EPF / PF</td><td>8.25% (FY 2025-26). Government-backed, rate set annually by EPFO. Contribution is a fixed % of salary shared with your employer, not discretionary.</td></tr>
+        <tr><td style="font-weight:600;">Gold</td><td>5–11% range. No interest or dividend — price appreciation only, can swing a lot over shorter periods.</td></tr>
+        <tr><td style="font-weight:600;">PPF</td><td>7.1% (current quarter). Government-backed, revised every quarter (unchanged since April 2020). Capped at ₹1.5 lakh/year, 15-year lock-in, fully tax-free returns.</td></tr>
+        <tr><td style="font-weight:600;">Fixed Deposit (FD)</td><td>6.5%. Bank-guaranteed (up to ₹5 lakh insured via DICGC). Roughly 6–7.5% for multi-year deposits as of 2026. Interest fully taxable.</td></tr>
+        <tr><td style="font-weight:600;">Recurring Deposit (RD)</td><td>6.5%. Same idea as FD for monthly deposits; similar bank-guaranteed rates and taxability.</td></tr>
+      </table>
+      <p class="note">All rates above are illustrative reference points as of 2026 and change over time — PPF/EPF are revised by the government, FD/RD vary by bank. Always check the current rate before actually investing.</p>
+    </div>
+
+    <div class="card guide-card">
+      <h2>About the safety-net check</h2>
+      <p class="desc">A quick sanity check on basic protections — investing aggressively for retirement while missing these can backfire (e.g. having to break a long-term investment early because of an emergency).</p>
+      <h3>1. Emergency fund</h3>
+      <div class="formula-list">
+        <p><code>Target = months you choose (default 6) × current monthly expenses</code><br><code>Gap = Target − what you currently have saved</code></p>
+        <p>Example: ₹60,000/month expenses, 6-month target, ₹1,00,000 saved → Target ₹3,60,000 − Current ₹1,00,000 = <strong>Gap ₹2,60,000</strong>.</p>
+      </div>
+      <h3>2. Term life insurance</h3>
+      <div class="formula-list">
+        <p><code>Benchmark = 15 × annual expenses</code><br><code>Gap = Benchmark − your current life cover</code></p>
+        <p>A rough stand-in for a proper "Human Life Value" calculation (which normally uses income and dependents) — this tool only collects expenses, so this is an approximation. A real advisor's number will be more accurate, especially with dependents or a home loan.</p>
+      </div>
+      <h3>3. Health insurance</h3>
+      <div class="formula-list">
+        <p><code>Baseline = ₹10,00,000 (flat)</code><br><code>Gap = Baseline − your current health cover</code></p>
+        <p>The least personalized of the three — doesn't adjust for city, family size, or family floater plans, which typically push the real number higher.</p>
+      </div>
+    </div>
+
+    <div class="disclaimer">
+      This tool is built for personal and educational use. It is not financial, investment, tax, or insurance advice, and the people who built or shared it are not liable for decisions made using it. Assumptions are simplified and real markets, expenses, and personal circumstances vary. For decisions involving real money, please consult a licensed financial advisor and/or insurance professional.
+    </div>
+  </div>
+
+  <div id="tab-calc" class="tab-panel">
   <div class="card">
     <h2>Your basics</h2>
     <div class="grid">
@@ -289,11 +416,21 @@
   </div>
 
   <div class="disclaimer">
-    Planning tool, not financial advice — all definitions, formulas, rate sources and full disclaimers are in <a href="./README.md">README.md</a> in this repository.
+    Planning tool, not financial advice — see the <a href="#" onclick="switchTab('guide'); return false;">Guide tab</a> for full definitions, formulas, and disclaimers.
+  </div>
   </div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+function switchTab(name) {
+  document.getElementById('tab-guide').classList.toggle('active', name === 'guide');
+  document.getElementById('tab-calc').classList.toggle('active', name === 'calc');
+  document.getElementById('tab-btn-guide').classList.toggle('active', name === 'guide');
+  document.getElementById('tab-btn-calc').classList.toggle('active', name === 'calc');
+  window.scrollTo(0, 0);
+}
+</script>
 <script>
 const $ = id => document.getElementById(id);
 const fmtINR = n => '₹' + Math.round(n).toLocaleString('en-IN');
