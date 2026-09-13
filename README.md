@@ -1,7 +1,7 @@
 # Retirement & Required Income Calculator (India)
 
 > [!CAUTION]
-> **NOT FINANCIAL, LEGAL, TAX, OR INSURANCE ADVICE.** This is a personal, educational calculator built for illustration only. It uses simplified assumptions and generic reference rates that may be outdated or may not apply to your situation. It does **not** know your income, dependents, debts, goals, or risk tolerance. **Nothing here is a recommendation to buy, sell, or hold any financial product.** Do not make investment, insurance, or retirement decisions based solely on this tool — consult a licensed financial advisor, tax professional, or insurance professional for advice specific to you. The creator(s) and distributor(s) of this tool accept no liability for outcomes from its use. All calculations run locally in your browser — no data is collected, stored, or transmitted anywhere.
+> **NOT FINANCIAL, LEGAL, TAX, OR INSURANCE ADVICE.** This is a personal, educational calculator built for illustration only. It uses simplified assumptions and generic reference rates that may be outdated or may not apply to your situation. It does **not** know your income, dependents, debts, goals, or risk tolerance. **It also does not account for other assets or income you may have — land, property, gold jewelry, inheritance, a pension, rental income, or family support — all of which could reduce the actual saving/salary you'd need.** Nothing here is a recommendation to buy, sell, or hold any financial product. Do not make investment, insurance, or retirement decisions based solely on this tool — consult a licensed financial advisor, tax professional, or insurance professional for advice specific to you. The creator(s) and distributor(s) of this tool accept no liability for outcomes from its use. All calculations run locally in your browser — no data is collected, stored, or transmitted anywhere.
 
 A single-page, no-signup calculator to estimate:
 - how your monthly expenses grow with inflation until retirement
@@ -36,7 +36,17 @@ Open `index.html` directly, or via this repo's GitHub Pages link, to use it — 
 - **Corpus needed** = present value of your inflation-adjusted monthly expenses over your retirement years, discounted at the "real" post-retirement return (post-retirement return adjusted for inflation)
 - **Required saving (fixed)** = flat monthly amount, growing at the pre-retirement return, that closes the gap between your current savings' future value and the required corpus
 - **Required saving (step-up)** = starting monthly amount that, increasing every year by your chosen step-up %, closes the same gap
-- **Required salary today** = current expenses + required monthly saving (Expected scenario) — i.e. the salary that covers both your current lifestyle and the saving needed to actually hit your retirement corpus. This replaced an earlier, disconnected version of the tool that used an arbitrary savings-rate % instead — that version could show a "required salary" lower than what you'd actually need to save, since the two numbers weren't linked. This version fixes that by deriving salary directly from the real required saving.
+- **Required salary today** = current expenses + required monthly saving (Expected scenario) — the salary that covers both your current lifestyle and the saving needed to actually hit your retirement corpus. This replaced an earlier, disconnected version of the tool that used an arbitrary savings-rate % instead — that version could show a "required salary" lower than what you'd actually need to save, since the two numbers weren't linked. This version fixes that by deriving salary directly from the real required saving.
+
+### Important: "Required salary today" is a snapshot, not a lifetime target
+
+This figure only answers "what salary covers today's expenses and today's required saving, today." It does **not** mean you should earn exactly this amount, unchanged, until retirement. Your expenses keep rising with inflation every year — so if your salary stayed perfectly flat, at some point it wouldn't even cover expenses, let alone the saving on top.
+
+Roughly speaking, your actual salary needs to grow over time at:
+- **At least the inflation rate**, if you're using a Fixed SIP (since the SIP amount itself never increases, only your expenses do)
+- **Somewhere between the inflation rate and your step-up %**, if you're using a Step-up SIP (since both expenses and saving are rising)
+
+The **"Salary growth over time"** section further down (and the matching table in the app) lets you pick an assumed salary growth rate and see exactly how a flat salary vs. a growing salary plays out year by year — including whether either one actually reaches your retirement corpus target.
 - **Ranges (Conservative / Expected / Optimistic)** — the required-saving and blended-portfolio figures vary the assumed return ±3 percentage points around your chosen "expected" value, since actual market returns are never a single fixed number.
 
 ### How "Monthly expense need at retirement" and "Corpus needed" relate
@@ -66,6 +76,8 @@ Required salary = 60,000 (expenses) + 68,000 (required saving) = ₹1,28,000/mon
 That's the salary that covers both your current lifestyle and gets you to your retirement goal — not just an arbitrary savings percentage.
 
 ## About the savings options compared
+
+**Each row in the "Compare ways to save" table is a standalone scenario** — it assumes 100% of your chosen monthly amount goes into *only that one option*, not split across rows. It's a way to compare options individually, not a recommended mix. To model a realistic combination instead, use the "Blended portfolio" section.
 
 | Option | Rate used | Notes |
 |---|---|---|
@@ -111,6 +123,12 @@ This is the least personalized of the three — a general floor often cited for 
 
 These are rough, generic checks — not a personalized insurance needs analysis.
 
+## Salary growth over time
+
+The "Salary growth over time" table shows two paths side by side, from today until retirement: **Flat salary** (never increases) vs. **Growing salary** (grows every year at a rate you choose). For each, it shows your expenses at that point (inflation-adjusted), your salary, what % of salary you're able to save, and your projected corpus so far.
+
+Unlike the "Required saving" figure elsewhere (which solves backward for the exact SIP needed), this table works forward — it takes salary minus expenses as your *actual* saving at each point in time, and compounds whatever's left. This is deliberately more realistic, and it's common for the **Flat salary** column to show your saving % shrinking over time, potentially even going negative (i.e. salary no longer covers expenses) — that's the table doing its job, showing why a static salary breaks down against inflation over a long horizon. The final row compares each path's resulting corpus against your actual corpus target.
+
 ## General disclaimer
 
-This tool is built for personal and educational use. It is not financial, investment, tax, or insurance advice, and the people who built or shared it are not liable for decisions made using it. Assumptions are simplified (e.g. constant inflation/return rates) and real markets, expenses, and personal circumstances vary. For decisions involving real money, please consult a licensed financial advisor and/or insurance professional.
+This tool is built for personal and educational use. It is not financial, investment, tax, or insurance advice, and the people who built or shared it are not liable for decisions made using it. Assumptions are simplified (e.g. constant inflation/return rates) and real markets, expenses, and personal circumstances vary. It does not account for other assets or income you may have (land, property, inheritance, pension, rental income, family support, etc.), which could change your actual required saving or salary. For decisions involving real money, please consult a licensed financial advisor and/or insurance professional.

@@ -118,7 +118,7 @@
 
   <div id="tab-guide" class="tab-panel active">
     <div class="caution">
-      <strong>⚠ NOT FINANCIAL, LEGAL, TAX, OR INSURANCE ADVICE.</strong> This is a personal, educational calculator built for illustration only. It uses simplified assumptions and generic reference rates that may be outdated or may not apply to your situation. It does not know your income, dependents, debts, goals, or risk tolerance. Nothing here is a recommendation to buy, sell, or hold any financial product. Do not make investment, insurance, or retirement decisions based solely on this tool — consult a licensed financial advisor, tax professional, or insurance professional for advice specific to you. The creator(s) and distributor(s) of this tool accept no liability for outcomes from its use. All calculations run locally in your browser — no data is collected, stored, or transmitted anywhere.
+      <strong>⚠ NOT FINANCIAL, LEGAL, TAX, OR INSURANCE ADVICE.</strong> This is a personal, educational calculator built for illustration only. It uses simplified assumptions and generic reference rates that may be outdated or may not apply to your situation. It does not know your income, dependents, debts, goals, or risk tolerance. <strong>It also does not account for other assets or income you may have — land, property, gold jewelry, inheritance, a pension, rental income, or family support — all of which could reduce the actual saving/salary you'd need.</strong> Nothing here is a recommendation to buy, sell, or hold any financial product. Do not make investment, insurance, or retirement decisions based solely on this tool — consult a licensed financial advisor, tax professional, or insurance professional for advice specific to you. The creator(s) and distributor(s) of this tool accept no liability for outcomes from its use. All calculations run locally in your browser — no data is collected, stored, or transmitted anywhere.
     </div>
 
     <div class="card guide-card">
@@ -163,6 +163,12 @@
         <p><code>Required salary today</code> = current expenses + required monthly saving (Expected scenario) — the salary that covers both your current lifestyle and the saving needed to actually hit your retirement corpus</p>
       </div>
 
+      <h3>Important: this is a snapshot, not a lifetime target</h3>
+      <div class="formula-list">
+        <p>"Required salary today" only answers "what covers today's expenses and today's saving, today." It does not mean your salary should stay this amount forever — your expenses keep rising with inflation, so a genuinely flat salary would eventually stop covering even expenses, let alone saving on top.</p>
+        <p>Roughly: with a <strong>Fixed SIP</strong>, salary needs to grow at least at the inflation rate. With a <strong>Step-up SIP</strong>, it needs to grow somewhere between the inflation rate and your step-up %. The "Salary growth over time" table further down shows exactly how this plays out year by year.</p>
+      </div>
+
       <h3>How "Monthly expense need" and "Corpus needed" relate</h3>
       <div class="formula-list">
         <p><strong>Monthly expense need at retirement</strong> = what your current monthly expenses will have grown into, after inflation, by the time you retire — in future rupees, not today's.</p>
@@ -184,6 +190,7 @@
 
     <div class="card guide-card">
       <h2>About the savings options compared</h2>
+      <p class="desc">Each row in the "Compare ways to save" table is a standalone scenario — it assumes 100% of your chosen monthly amount goes into <em>only that one option</em>, not split across rows. It's a way to compare options individually, not a recommended mix — use "Blended portfolio" in the Calculator tab to model a realistic combination instead.</p>
       <table>
         <tr><td style="font-weight:600; width:170px;">Equity mutual fund (SIP)</td><td>8–14% range. Market-linked, not guaranteed — a long-term historical reference for Indian equity. Any individual year (or stretch of years) can be flat or negative.</td></tr>
         <tr><td style="font-weight:600;">NPS (equity-heavy)</td><td>8–12% range. Market-linked, mixes equity/debt/govt bonds. Partially locked in, with mandatory annuitization of part of the corpus at exit.</td></tr>
@@ -216,8 +223,16 @@
       </div>
     </div>
 
+    <div class="card guide-card">
+      <h2>Salary growth over time</h2>
+      <div class="formula-list">
+        <p>The table shows two paths from today to retirement: <strong>Flat salary</strong> (never changes) vs. <strong>Growing salary</strong> (grows yearly at a rate you pick). Unlike "Required saving" elsewhere (which solves backward for the exact SIP needed), this works forward — salary minus expenses at each point in time is your actual saving, compounded going forward.</p>
+        <p>It's common for the Flat salary column's saving % to shrink over time, even going negative — that's the table correctly showing why a static salary can't keep up with rising expenses over a long horizon.</p>
+      </div>
+    </div>
+
     <div class="disclaimer">
-      This tool is built for personal and educational use. It is not financial, investment, tax, or insurance advice, and the people who built or shared it are not liable for decisions made using it. Assumptions are simplified and real markets, expenses, and personal circumstances vary. For decisions involving real money, please consult a licensed financial advisor and/or insurance professional.
+      This tool is built for personal and educational use. It is not financial, investment, tax, or insurance advice, and the people who built or shared it are not liable for decisions made using it. Assumptions are simplified and real markets, expenses, and personal circumstances vary. It does not account for other assets or income you may have (land, property, inheritance, pension, rental income, family support, etc.), which could change your actual required saving or salary. For decisions involving real money, please consult a licensed financial advisor and/or insurance professional.
     </div>
   </div>
 
@@ -341,7 +356,7 @@
 
   <div class="card">
     <h2>Compare ways to save the same amount</h2>
-    <p class="desc">Put the same flat monthly amount into different options and see the projected value at retirement. Market-linked options show a range; government/bank-backed options show one guaranteed-as-of-today rate. The "Total" column adds in what your current savings (from "Your basics") would grow to at that same rate, and checks it against your corpus target below.</p>
+    <p class="desc">Each row is a standalone "what if" — it assumes 100% of your monthly amount goes into <em>only that one option</em>, not split across rows. Market-linked options show a range; government/bank-backed options show one guaranteed-as-of-today rate. The "Total" column adds in what your current savings (from "Your basics") would grow to at that same rate, and checks it against your corpus target below. To see a realistic mix instead of one option at a time, use "Blended portfolio" further down.</p>
     <div class="field" style="max-width:340px; margin-bottom:16px;">
       <label>Monthly amount you can invest <span class="val" id="invamt-out">₹20,000</span></label>
       <input type="range" min="1000" max="300000" step="1000" value="20000" id="invamt">
@@ -405,6 +420,33 @@
       </div>
     </div>
     <p class="note">Life cover benchmark used here is a simple 15× annual-expenses rule of thumb (since this tool doesn't collect income or dependents) — a proper Human Life Value calculation from an advisor will be more accurate. Health cover benchmark (₹10 lakh) is a general baseline; metro cities and family floater plans often need more.</p>
+  </div>
+
+  <div class="card">
+    <h2>Salary growth over time</h2>
+    <p class="desc">"Required salary today" is a snapshot, not a lifetime number — this table shows what happens if your salary stays flat vs. grows every year, from today until retirement. Saving here = salary minus expenses at each point (not the backward-solved "Required saving" above), so it can shrink or go negative if salary can't keep up.</p>
+    <div class="field" style="max-width:340px; margin-bottom:16px;">
+      <label>Assumed annual salary growth <span class="val" id="salgrowth-out">8%</span></label>
+      <input type="range" min="0" max="15" step="0.5" value="8" id="salgrowth">
+    </div>
+    <div style="overflow-x:auto;">
+      <table>
+        <thead>
+          <tr>
+            <th rowspan="2" style="vertical-align:bottom;">When</th>
+            <th rowspan="2" style="vertical-align:bottom;">Expenses</th>
+            <th colspan="3" style="text-align:center; border-bottom:1px solid var(--border);">Flat salary</th>
+            <th colspan="3" style="text-align:center; border-bottom:1px solid var(--border);">Growing salary</th>
+          </tr>
+          <tr>
+            <th>Salary</th><th>Saving %</th><th>Corpus so far</th>
+            <th>Salary</th><th>Saving %</th><th>Corpus so far</th>
+          </tr>
+        </thead>
+        <tbody id="salary-body"></tbody>
+      </table>
+    </div>
+    <p class="note" id="salary-status"></p>
   </div>
 
   <div class="card">
@@ -627,6 +669,7 @@ function compute() {
   renderCompare(totalMonthsPre, yearsToRet, cur, corpus);
   renderBlend(totalMonthsPre, yearsToRet, cur, corpus);
   renderSafetyNet();
+  renderSalaryProjection(requiredSalary, totalMonthsPre, yearsToRet, cur, pre, retAge, corpus);
   renderChart(yearsToRet, yearsInRet, age, futExp);
 }
 
@@ -746,6 +789,66 @@ function renderSafetyNet() {
   }
 }
 
+function simulateSalaryPath(salaryToday, growthRate, monthsToRet, cur, preRate) {
+  const preMonthly = preRate / 12;
+  const snapshots = {};
+  let corpus = cur;
+  const expense0 = computeFutureExpense(0).futExp;
+  snapshots[0] = { salary: salaryToday, expense: expense0, saving: salaryToday - expense0, corpus: corpus };
+  for (let m = 1; m <= monthsToRet; m++) {
+    const yearsFrac = m / 12;
+    const expense = computeFutureExpense(yearsFrac).futExp;
+    const salary = salaryToday * Math.pow(1 + growthRate, yearsFrac);
+    const saving = salary - expense;
+    const contribution = Math.max(saving, 0);
+    corpus = corpus * (1 + preMonthly) + contribution;
+    snapshots[m] = { salary, expense, saving, corpus };
+  }
+  return snapshots;
+}
+
+function renderSalaryProjection(salaryToday, monthsToRet, yearsToRet, cur, preRate, retAge, corpusTarget) {
+  const growthRate = +$('salgrowth').value / 100;
+  $('salgrowth-out').textContent = $('salgrowth').value + '%';
+
+  const flatPath = simulateSalaryPath(salaryToday, 0, monthsToRet, cur, preRate);
+  const growPath = simulateSalaryPath(salaryToday, growthRate, monthsToRet, cur, preRate);
+
+  let rowYears = [0, 2, 5, 10, 15, 20, 25, 30, 35, 40].filter(y => y <= yearsToRet);
+  if (rowYears.length === 0 || rowYears[rowYears.length - 1] !== yearsToRet) rowYears.push(yearsToRet);
+
+  const body = $('salary-body');
+  body.innerHTML = '';
+  rowYears.forEach(y => {
+    const m = y * 12;
+    const flat = flatPath[m];
+    const grow = growPath[m];
+    const label = y === 0 ? 'Today' : (y === yearsToRet ? 'At retirement (age ' + retAge + ')' : 'In ' + y + ' years');
+    const flatPct = flat.salary > 0 ? (flat.saving / flat.salary * 100) : 0;
+    const growPct = grow.salary > 0 ? (grow.saving / grow.salary * 100) : 0;
+    const flatPctStr = (flatPct < 0 ? '<span style="color:var(--warn-text); font-weight:600;">' : '') + flatPct.toFixed(0) + '%' + (flatPct < 0 ? '</span>' : '');
+    const growPctStr = (growPct < 0 ? '<span style="color:var(--warn-text); font-weight:600;">' : '') + growPct.toFixed(0) + '%' + (growPct < 0 ? '</span>' : '');
+    const tr = document.createElement('tr');
+    tr.innerHTML =
+      '<td style="font-weight:500;">' + label + '</td>' +
+      '<td>' + fmtINR(flat.expense) + '</td>' +
+      '<td>' + fmtINR(flat.salary) + '</td>' +
+      '<td>' + flatPctStr + '</td>' +
+      '<td>' + fmtINR(flat.corpus) + '</td>' +
+      '<td>' + fmtINR(grow.salary) + '</td>' +
+      '<td>' + growPctStr + '</td>' +
+      '<td>' + fmtINR(grow.corpus) + '</td>';
+    body.appendChild(tr);
+  });
+
+  const finalFlat = flatPath[yearsToRet * 12];
+  const finalGrow = growPath[yearsToRet * 12];
+  $('salary-status').innerHTML =
+    'At retirement — Flat salary path: ' + statusPill(finalFlat.corpus, corpusTarget) +
+    ' &nbsp; | &nbsp; Growing salary path (' + $('salgrowth').value + '%/yr): ' + statusPill(finalGrow.corpus, corpusTarget) +
+    ' &nbsp; vs. corpus target ' + fmtINR(corpusTarget) + '.';
+}
+
 function renderChart(yearsToRet, yearsInRet, age, futExp) {
   const labels = [];
   const data = [];
@@ -774,7 +877,7 @@ function renderChart(yearsToRet, yearsInRet, age, futExp) {
   }
 }
 
-['age','retage','life','exp','infl','pre','post','cur','geninfl','edupct','eduinfl','healthpct','healthinfl','stepup','invamt','ef','efmonths','lifecover','healthcover'].forEach(id => $(id).addEventListener('input', compute));
+['age','retage','life','exp','infl','pre','post','cur','geninfl','edupct','eduinfl','healthpct','healthinfl','stepup','invamt','ef','efmonths','lifecover','healthcover','salgrowth'].forEach(id => $(id).addEventListener('input', compute));
 compute();
 </script>
 </body>
