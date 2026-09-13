@@ -178,7 +178,7 @@
 
       <h3>How "Compare ways to save" and "Blended portfolio" connect to your corpus target</h3>
       <div class="formula-list">
-        <p>Their <strong>Total</strong> figure = (the monthly amount you set, grown at that option's/blend's rate) + (your current retirement savings, grown at that same rate over the same years) — compared directly against your corpus target, with a <strong>Covered (+surplus)</strong> or <strong>Shortfall</strong> status shown alongside.</p>
+        <p>Their <strong>"Total (incl. current savings)"</strong> figure = (the monthly amount you set, grown at that option's/blend's rate) + (your existing current savings, <em>hypothetically also</em> sitting in that same option and growing at the same rate — not tracking where your money actually is today) — compared directly against your corpus target, with a <strong>Covered (+surplus)</strong> or <strong>Shortfall</strong> status shown alongside.</p>
       </div>
 
       <h3>Worked example — Required salary today</h3>
@@ -356,14 +356,14 @@
 
   <div class="card">
     <h2>Compare ways to save the same amount</h2>
-    <p class="desc">Each row is a standalone "what if" — it assumes 100% of your monthly amount goes into <em>only that one option</em>, not split across rows. Market-linked options show a range; government/bank-backed options show one guaranteed-as-of-today rate. The "Total" column adds in what your current savings (from "Your basics") would grow to at that same rate, and checks it against your corpus target below. To see a realistic mix instead of one option at a time, use "Blended portfolio" further down.</p>
+    <p class="desc">Each row is a standalone "what if" — it assumes 100% of your monthly amount goes into <em>only that one option</em>, not split across rows. Market-linked options show a range; government/bank-backed options show one guaranteed-as-of-today rate. The "Total (incl. current savings)" column additionally assumes your existing current savings (from "Your basics") are <em>also</em> sitting in that same option, growing at that row's rate — not tracking where your money actually sits today, just a clean way to compare all-in-on-one-option scenarios. It's checked against your corpus target. To see a realistic mix instead of one option at a time, use "Blended portfolio" further down.</p>
     <div class="field" style="max-width:340px; margin-bottom:16px;">
       <label>Monthly amount you can invest <span class="val" id="invamt-out">₹20,000</span></label>
       <input type="range" min="1000" max="300000" step="1000" value="20000" id="invamt">
     </div>
     <div style="overflow-x:auto;">
       <table>
-        <thead><tr><th>Option</th><th>Rate used</th><th>Projected value of this monthly investment</th><th>+ current savings, growing at this rate = Total</th><th>vs. your corpus target</th><th>Note</th></tr></thead>
+        <thead><tr><th>Option</th><th>Rate used</th><th>Projected value of this monthly investment</th><th>Total (incl. current savings)</th><th>vs. your corpus target</th><th>Note</th></tr></thead>
         <tbody id="compare-body"></tbody>
       </table>
     </div>
