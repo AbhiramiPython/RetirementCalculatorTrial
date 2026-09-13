@@ -64,7 +64,7 @@ If you retire with that corpus and withdraw that monthly expense amount (increas
 
 These two sections now check your actual plan against the corpus target, not just show projections in isolation:
 
-- **"Total (incl. current savings)" column/figure** = (the monthly amount you set, grown at that option's/blend's rate) **+** (your existing current savings from "Your basics", *hypothetically also* sitting in that same option/blend and growing at the same rate — this does not track where your money actually sits today, it's a clean way to compare "all-in-on-one-option" scenarios)
+- **"Total (incl. current savings)" column/figure** = (the monthly amount you set, grown at that option's/blend's rate) **+** (your existing current savings from "Your basics", *hypothetically also* sitting in that same option/blend and growing at the same rate — this does not track where your money actually sits today, it's a clean way to compare "all-in-on-one-option" scenarios). The Blended Portfolio section shows this same three-part breakdown (investment alone, + current savings, = total) rather than just the combined figure, so both sections are equally transparent about what's included.
 - That Total is compared directly against your **Corpus needed at retirement** figure, with a **Covered (+surplus)** or **Shortfall (amount)** status shown next to it
 
 This is what actually answers "if my money were structured this way, would I reach my retirement corpus?" — rather than leaving you to manually add up numbers from different parts of the tool.

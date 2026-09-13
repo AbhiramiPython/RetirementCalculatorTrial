@@ -52,6 +52,14 @@
     margin-bottom: 6px;
   }
   .field label span.val { color: var(--text); font-weight: 600; }
+  .val-wrap { display: flex; justify-content: flex-end; align-items: center; gap: 2px; margin-bottom: 6px; font-size: 13px; font-weight: 600; color: var(--text); }
+  .val-input {
+    width: 100px; text-align: right; font-size: 13px; font-weight: 600; color: var(--text);
+    border: 1px solid var(--border); border-radius: 6px; padding: 4px 8px; background: #fff;
+    font-family: inherit;
+  }
+  .val-input:focus { outline: none; border-color: var(--accent); }
+  .val-input::-webkit-outer-spin-button, .val-input::-webkit-inner-spin-button { opacity: 0.4; }
   input[type=range] { width: 100%; accent-color: var(--accent); }
   .toggle-row { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
   .toggle-btn {
@@ -178,7 +186,7 @@
 
       <h3>How "Compare ways to save" and "Blended portfolio" connect to your corpus target</h3>
       <div class="formula-list">
-        <p>Their <strong>"Total (incl. current savings)"</strong> figure = (the monthly amount you set, grown at that option's/blend's rate) + (your existing current savings, <em>hypothetically also</em> sitting in that same option and growing at the same rate — not tracking where your money actually is today) — compared directly against your corpus target, with a <strong>Covered (+surplus)</strong> or <strong>Shortfall</strong> status shown alongside.</p>
+        <p>Both sections now show the same three-part breakdown: <strong>monthly investment alone</strong>, <strong>+ current savings</strong> (hypothetically also growing at that same rate — not tracking where your money actually is today), and the resulting <strong>Total</strong> — compared directly against your corpus target, with a <strong>Covered (+surplus)</strong> or <strong>Shortfall</strong> status shown alongside.</p>
       </div>
 
       <h3>Worked example — Required salary today</h3>
@@ -241,31 +249,38 @@
     <h2>Your basics</h2>
     <div class="grid">
       <div class="field">
-        <label>Current age <span class="val" id="age-out">35</span></label>
+        <label>Current age</label>
+        <div class="val-wrap"><input type="number" class="val-input" id="age-out" value="35" min="20" max="55" step="1"></div>
         <input type="range" min="20" max="55" step="1" value="35" id="age">
       </div>
       <div class="field">
-        <label>Retirement age <span class="val" id="retage-out">60</span></label>
+        <label>Retirement age</label>
+        <div class="val-wrap"><input type="number" class="val-input" id="retage-out" value="60" min="45" max="70" step="1"></div>
         <input type="range" min="45" max="70" step="1" value="60" id="retage">
       </div>
       <div class="field">
-        <label>Life expectancy <span class="val" id="life-out">85</span></label>
+        <label>Life expectancy</label>
+        <div class="val-wrap"><input type="number" class="val-input" id="life-out" value="85" min="70" max="95" step="1"></div>
         <input type="range" min="70" max="95" step="1" value="85" id="life">
       </div>
       <div class="field">
-        <label>Current monthly expenses <span class="val" id="exp-out">₹60,000</span></label>
+        <label>Current monthly expenses</label>
+        <div class="val-wrap">₹<input type="number" class="val-input" id="exp-out" value="60000" min="10000" max="500000" step="5000"></div>
         <input type="range" min="10000" max="500000" step="5000" value="60000" id="exp">
       </div>
       <div class="field">
-        <label>Return before retirement (expected) <span class="val" id="pre-out">11%</span></label>
+        <label>Return before retirement (expected)</label>
+        <div class="val-wrap"><input type="number" class="val-input" id="pre-out" value="11" min="4" max="16" step="0.5">%</div>
         <input type="range" min="4" max="16" step="0.5" value="11" id="pre">
       </div>
       <div class="field">
-        <label>Return after retirement <span class="val" id="post-out">7%</span></label>
+        <label>Return after retirement</label>
+        <div class="val-wrap"><input type="number" class="val-input" id="post-out" value="7" min="2" max="12" step="0.5">%</div>
         <input type="range" min="2" max="12" step="0.5" value="7" id="post">
       </div>
       <div class="field">
-        <label>Current retirement savings <span class="val" id="cur-out">₹5,00,000</span></label>
+        <label>Current retirement savings</label>
+        <div class="val-wrap">₹<input type="number" class="val-input" id="cur-out" value="500000" min="0" max="30000000" step="100000"></div>
         <input type="range" min="0" max="30000000" step="100000" value="500000" id="cur">
       </div>
     </div>
@@ -281,7 +296,8 @@
 
     <div id="infl-simple-panel">
       <div class="field" style="max-width:340px;">
-        <label>Inflation rate <span class="val" id="infl-out">6%</span></label>
+        <label>Inflation rate</label>
+        <div class="val-wrap"><input type="number" class="val-input" id="infl-out" value="6" min="3" max="10" step="0.5">%</div>
         <input type="range" min="3" max="10" step="0.5" value="6" id="infl">
       </div>
     </div>
@@ -289,23 +305,28 @@
     <div id="infl-custom-panel" style="display:none;">
       <div class="grid">
         <div class="field">
-          <label>General expenses inflation <span class="val" id="geninfl-out">6%</span></label>
+          <label>General expenses inflation</label>
+          <div class="val-wrap"><input type="number" class="val-input" id="geninfl-out" value="6" min="3" max="10" step="0.5">%</div>
           <input type="range" min="3" max="10" step="0.5" value="6" id="geninfl">
         </div>
         <div class="field">
-          <label>Education: % of your expenses <span class="val" id="edupct-out">15%</span></label>
+          <label>Education: % of your expenses</label>
+          <div class="val-wrap"><input type="number" class="val-input" id="edupct-out" value="15" min="0" max="60" step="5">%</div>
           <input type="range" min="0" max="60" step="5" value="15" id="edupct">
         </div>
         <div class="field">
-          <label>Education inflation rate <span class="val" id="eduinfl-out">9%</span></label>
+          <label>Education inflation rate</label>
+          <div class="val-wrap"><input type="number" class="val-input" id="eduinfl-out" value="9" min="3" max="15" step="0.5">%</div>
           <input type="range" min="3" max="15" step="0.5" value="9" id="eduinfl">
         </div>
         <div class="field">
-          <label>Healthcare: % of your expenses <span class="val" id="healthpct-out">10%</span></label>
+          <label>Healthcare: % of your expenses</label>
+          <div class="val-wrap"><input type="number" class="val-input" id="healthpct-out" value="10" min="0" max="60" step="5">%</div>
           <input type="range" min="0" max="60" step="5" value="10" id="healthpct">
         </div>
         <div class="field">
-          <label>Healthcare inflation rate <span class="val" id="healthinfl-out">9%</span></label>
+          <label>Healthcare inflation rate</label>
+          <div class="val-wrap"><input type="number" class="val-input" id="healthinfl-out" value="9" min="3" max="15" step="0.5">%</div>
           <input type="range" min="3" max="15" step="0.5" value="9" id="healthinfl">
         </div>
       </div>
@@ -322,7 +343,8 @@
     </div>
     <div id="stepup-panel" style="display:none; max-width:340px; margin-bottom:8px;">
       <div class="field">
-        <label>Annual step-up <span class="val" id="stepup-out">8%</span></label>
+        <label>Annual step-up</label>
+        <div class="val-wrap"><input type="number" class="val-input" id="stepup-out" value="8" min="3" max="20" step="1">%</div>
         <input type="range" min="3" max="20" step="1" value="8" id="stepup">
       </div>
     </div>
@@ -358,7 +380,8 @@
     <h2>Compare ways to save the same amount</h2>
     <p class="desc">Each row is a standalone "what if" — it assumes 100% of your monthly amount goes into <em>only that one option</em>, not split across rows. Market-linked options show a range; government/bank-backed options show one guaranteed-as-of-today rate. The "Total (incl. current savings)" column additionally assumes your existing current savings (from "Your basics") are <em>also</em> sitting in that same option, growing at that row's rate — not tracking where your money actually sits today, just a clean way to compare all-in-on-one-option scenarios. It's checked against your corpus target. To see a realistic mix instead of one option at a time, use "Blended portfolio" further down.</p>
     <div class="field" style="max-width:340px; margin-bottom:16px;">
-      <label>Monthly amount you can invest <span class="val" id="invamt-out">₹20,000</span></label>
+      <label>Monthly amount you can invest</label>
+      <div class="val-wrap">₹<input type="number" class="val-input" id="invamt-out" value="20000" min="1000" max="300000" step="1000"></div>
       <input type="range" min="1000" max="300000" step="1000" value="20000" id="invamt">
     </div>
     <div style="overflow-x:auto;">
@@ -374,7 +397,22 @@
     <p class="desc">Most people don't put everything in one place. Set relative weights below (they don't need to add to exactly 100 — they're auto-normalized) to see what a mixed portfolio — your current savings <em>plus</em> the monthly amount set above, both growing at the blended rate — could add up to by retirement.</p>
     <div class="grid" id="blend-sliders"></div>
     <p class="note" id="blend-weight-note"></p>
-    <p class="desc" style="margin-top:14px;">Total projected corpus (current savings + monthly investment, both at this blended rate):</p>
+
+    <p class="desc" style="margin-top:14px;">Monthly investment only, at the blended rate:</p>
+    <div class="scenario-row">
+      <div class="metric"><p class="label">Conservative</p><p class="value" id="out-blend-invested-low">-</p></div>
+      <div class="metric"><p class="label">Expected</p><p class="value" id="out-blend-invested-mid">-</p></div>
+      <div class="metric"><p class="label">Optimistic</p><p class="value" id="out-blend-invested-high">-</p></div>
+    </div>
+
+    <p class="desc" style="margin-top:14px;">+ current savings (from "Your basics"), hypothetically also at the blended rate:</p>
+    <div class="scenario-row">
+      <div class="metric"><p class="label">Conservative</p><p class="value" id="out-blend-cur-low">-</p></div>
+      <div class="metric"><p class="label">Expected</p><p class="value" id="out-blend-cur-mid">-</p></div>
+      <div class="metric"><p class="label">Optimistic</p><p class="value" id="out-blend-cur-high">-</p></div>
+    </div>
+
+    <p class="desc" style="margin-top:14px;">= Total (incl. current savings):</p>
     <div class="scenario-row">
       <div class="metric"><p class="label">Conservative</p><p class="value" id="out-blend-low">-</p></div>
       <div class="metric"><p class="label">Expected</p><p class="value" id="out-blend-mid">-</p></div>
@@ -389,19 +427,23 @@
     <p class="desc">Rough rule-of-thumb checks, not a substitute for a proper insurance needs analysis — but worth confirming before you focus purely on retirement investing.</p>
     <div class="grid">
       <div class="field">
-        <label>Emergency fund you currently have <span class="val" id="ef-out">₹1,00,000</span></label>
+        <label>Emergency fund you currently have</label>
+        <div class="val-wrap">₹<input type="number" class="val-input" id="ef-out" value="100000" min="0" max="2000000" step="10000"></div>
         <input type="range" min="0" max="2000000" step="10000" value="100000" id="ef">
       </div>
       <div class="field">
-        <label>Months of expenses to target <span class="val" id="efmonths-out">6</span></label>
+        <label>Months of expenses to target</label>
+        <div class="val-wrap"><input type="number" class="val-input" id="efmonths-out" value="6" min="3" max="12" step="1"></div>
         <input type="range" min="3" max="12" step="1" value="6" id="efmonths">
       </div>
       <div class="field">
-        <label>Term life cover you currently have <span class="val" id="life-out2">₹20,00,000</span></label>
+        <label>Term life cover you currently have</label>
+        <div class="val-wrap">₹<input type="number" class="val-input" id="life-out2" value="2000000" min="0" max="20000000" step="100000"></div>
         <input type="range" min="0" max="20000000" step="100000" value="2000000" id="lifecover">
       </div>
       <div class="field">
-        <label>Health insurance cover you currently have <span class="val" id="health-out">₹3,00,000</span></label>
+        <label>Health insurance cover you currently have</label>
+        <div class="val-wrap">₹<input type="number" class="val-input" id="health-out" value="300000" min="0" max="5000000" step="50000"></div>
         <input type="range" min="0" max="5000000" step="50000" value="300000" id="healthcover">
       </div>
     </div>
@@ -426,7 +468,8 @@
     <h2>Salary growth over time</h2>
     <p class="desc">"Required salary today" is a snapshot, not a lifetime number — this table shows what happens if your salary stays flat vs. grows every year, from today until retirement. Saving here = salary minus expenses at each point (not the backward-solved "Required saving" above), so it can shrink or go negative if salary can't keep up.</p>
     <div class="field" style="max-width:340px; margin-bottom:16px;">
-      <label>Assumed annual salary growth <span class="val" id="salgrowth-out">8%</span></label>
+      <label>Assumed annual salary growth</label>
+      <div class="val-wrap"><input type="number" class="val-input" id="salgrowth-out" value="8" min="0" max="15" step="0.5">%</div>
       <input type="range" min="0" max="15" step="0.5" value="8" id="salgrowth">
     </div>
     <div style="overflow-x:auto;">
@@ -555,12 +598,13 @@ $('btn-sip-stepup').addEventListener('click', () => setSipMode('stepup'));
     const div = document.createElement('div');
     div.className = 'field';
     div.innerHTML =
-      '<label>' + info.name + ' weight <span class="val" id="w-' + key + '-out">' + BLEND_DEFAULTS[key] + '</span></label>' +
+      '<label>' + info.name + ' weight</label>' +
+      '<div class="val-wrap"><input type="number" class="val-input" id="w-' + key + '-out" value="' + BLEND_DEFAULTS[key] + '" min="0" max="100" step="5"></div>' +
       '<input type="range" min="0" max="100" step="5" value="' + BLEND_DEFAULTS[key] + '" id="w-' + key + '">';
     wrap.appendChild(div);
   });
   BLEND_ORDER.forEach(key => {
-    $('w-' + key).addEventListener('input', () => { $('w-' + key + '-out').textContent = $('w-' + key).value; compute(); });
+    $('w-' + key).addEventListener('input', () => { $('w-' + key + '-out').value = $('w-' + key).value; compute(); });
   });
 })();
 
@@ -593,20 +637,20 @@ function compute() {
   const post = +$('post').value / 100;
   const cur = +$('cur').value;
 
-  $('age-out').textContent = age;
-  $('retage-out').textContent = retAge;
-  $('life-out').textContent = life;
-  $('exp-out').textContent = fmtINR(exp);
-  $('pre-out').textContent = $('pre').value + '%';
-  $('post-out').textContent = $('post').value + '%';
-  $('cur-out').textContent = fmtINR(cur);
-  $('infl-out').textContent = $('infl').value + '%';
-  $('geninfl-out').textContent = $('geninfl').value + '%';
-  $('edupct-out').textContent = $('edupct').value + '%';
-  $('eduinfl-out').textContent = $('eduinfl').value + '%';
-  $('healthpct-out').textContent = $('healthpct').value + '%';
-  $('healthinfl-out').textContent = $('healthinfl').value + '%';
-  $('stepup-out').textContent = $('stepup').value + '%';
+  $('age-out').value = age;
+  $('retage-out').value = retAge;
+  $('life-out').value = life;
+  $('exp-out').value = exp;
+  $('pre-out').value = $('pre').value;
+  $('post-out').value = $('post').value;
+  $('cur-out').value = cur;
+  $('infl-out').value = $('infl').value;
+  $('geninfl-out').value = $('geninfl').value;
+  $('edupct-out').value = $('edupct').value;
+  $('eduinfl-out').value = $('eduinfl').value;
+  $('healthpct-out').value = $('healthpct').value;
+  $('healthinfl-out').value = $('healthinfl').value;
+  $('stepup-out').value = $('stepup').value;
   {
     const genPct = Math.max(100 - (+$('edupct').value) - (+$('healthpct').value), 0);
     $('genpct-note').innerHTML = 'Remaining <strong>' + genPct + '%</strong> of expenses treated as "general" at the general inflation rate above.';
@@ -682,7 +726,7 @@ function statusPill(total, corpus) {
 
 function renderCompare(monthsToRet, yearsToRet, cur, corpus) {
   const amt = +$('invamt').value;
-  $('invamt-out').textContent = fmtINR(amt);
+  $('invamt-out').value = amt;
   const body = $('compare-body');
   body.innerHTML = '';
   const rows = [];
@@ -742,10 +786,16 @@ function renderBlend(monthsToRet, yearsToRet, cur, corpus) {
   const totalMid = investedMid + curMid;
   const totalHigh = investedHigh + curHigh;
 
+  $('out-blend-invested-low').textContent = fmtINR(investedLow);
+  $('out-blend-invested-mid').textContent = fmtINR(investedMid);
+  $('out-blend-invested-high').textContent = fmtINR(investedHigh);
+  $('out-blend-cur-low').textContent = fmtINR(curLow);
+  $('out-blend-cur-mid').textContent = fmtINR(curMid);
+  $('out-blend-cur-high').textContent = fmtINR(curHigh);
   $('out-blend-low').textContent = fmtINR(totalLow);
   $('out-blend-mid').textContent = fmtINR(totalMid);
   $('out-blend-high').textContent = fmtINR(totalHigh);
-  $('blend-rate-note').textContent = 'Effective blended return: ' + (rLow*100).toFixed(1) + '% to ' + (rHigh*100).toFixed(1) + '% (expected ' + (rMid*100).toFixed(1) + '%). Totals above already include your current savings growing at this blended rate, plus the monthly amount set in "Compare ways to save" above.';
+  $('blend-rate-note').textContent = 'Effective blended return: ' + (rLow*100).toFixed(1) + '% to ' + (rHigh*100).toFixed(1) + '% (expected ' + (rMid*100).toFixed(1) + '%).';
   $('out-blend-status').innerHTML = statusPill(totalMid, corpus) + ' vs. your ' + fmtINR(corpus) + ' corpus target (Expected scenario)';
 }
 
@@ -756,10 +806,10 @@ function renderSafetyNet() {
   const lifeCover = +$('lifecover').value;
   const healthCover = +$('healthcover').value;
 
-  $('ef-out').textContent = fmtINR(ef);
-  $('efmonths-out').textContent = efMonths;
-  $('life-out2').textContent = fmtINR(lifeCover);
-  $('health-out').textContent = fmtINR(healthCover);
+  $('ef-out').value = ef;
+  $('efmonths-out').value = efMonths;
+  $('life-out2').value = lifeCover;
+  $('health-out').value = healthCover;
 
   const efTarget = exp * efMonths;
   const efEl = $('out-ef');
@@ -809,7 +859,7 @@ function simulateSalaryPath(salaryToday, growthRate, monthsToRet, cur, preRate) 
 
 function renderSalaryProjection(salaryToday, monthsToRet, yearsToRet, cur, preRate, retAge, corpusTarget) {
   const growthRate = +$('salgrowth').value / 100;
-  $('salgrowth-out').textContent = $('salgrowth').value + '%';
+  $('salgrowth-out').value = $('salgrowth').value;
 
   const flatPath = simulateSalaryPath(salaryToday, 0, monthsToRet, cur, preRate);
   const growPath = simulateSalaryPath(salaryToday, growthRate, monthsToRet, cur, preRate);
@@ -878,6 +928,25 @@ function renderChart(yearsToRet, yearsInRet, age, futExp) {
 }
 
 ['age','retage','life','exp','infl','pre','post','cur','geninfl','edupct','eduinfl','healthpct','healthinfl','stepup','invamt','ef','efmonths','lifecover','healthcover','salgrowth'].forEach(id => $(id).addEventListener('input', compute));
+
+// Wire each editable number box back to its slider, so typing a value updates the slider too.
+const SPECIAL_RANGE_MAP = { 'life-out2': 'lifecover', 'health-out': 'healthcover' };
+document.querySelectorAll('.val-input').forEach(inp => {
+  const rangeId = SPECIAL_RANGE_MAP[inp.id] || inp.id.replace(/-out$/, '');
+  const rangeEl = document.getElementById(rangeId);
+  if (!rangeEl) return;
+  inp.addEventListener('input', () => {
+    let v = parseFloat(inp.value);
+    if (isNaN(v)) return;
+    const min = parseFloat(inp.min), max = parseFloat(inp.max);
+    if (v < min) v = min;
+    if (v > max) v = max;
+    rangeEl.value = v;
+    compute();
+  });
+  inp.addEventListener('blur', () => { inp.value = rangeEl.value; });
+});
+
 compute();
 </script>
 </body>
