@@ -126,7 +126,7 @@
 
   <div id="tab-guide" class="tab-panel active">
     <div class="caution">
-      <strong>⚠ NOT FINANCIAL, LEGAL, TAX, OR INSURANCE ADVICE.</strong> This is a personal, educational calculator built for illustration only. It uses simplified assumptions and generic reference rates that may be outdated or may not apply to your situation. It does not know your income, dependents, debts, goals, or risk tolerance. <strong>It also does not account for other assets or income you may have — land, property, gold jewelry, inheritance, a pension, rental income, or family support — all of which could reduce the actual saving/salary you'd need.</strong> Nothing here is a recommendation to buy, sell, or hold any financial product. Do not make investment, insurance, or retirement decisions based solely on this tool — consult a licensed financial advisor, tax professional, or insurance professional for advice specific to you. The creator(s) and distributor(s) of this tool accept no liability for outcomes from its use. All calculations run locally in your browser — no data is collected, stored, or transmitted anywhere.
+      <strong>⚠ NOT FINANCIAL, LEGAL, TAX, OR INSURANCE ADVICE.</strong> This is a personal, educational calculator built for illustration only. It uses simplified assumptions and generic reference rates that may be outdated or may not apply to your situation. It does not know your income, dependents, debts, goals, or risk tolerance. <strong>An "Other assets" field lets you add a rough value for land, property, inheritance, etc. at retirement, but it's only as accurate as the number you enter — it does not independently know about or verify any income or assets you have.</strong> Nothing here is a recommendation to buy, sell, or hold any financial product. Do not make investment, insurance, or retirement decisions based solely on this tool — consult a licensed financial advisor, tax professional, or insurance professional for advice specific to you. The creator(s) and distributor(s) of this tool accept no liability for outcomes from its use. All calculations run locally in your browser — no data is collected, stored, or transmitted anywhere.
     </div>
 
     <div class="card guide-card">
@@ -158,6 +158,7 @@
         <tr><td style="font-weight:600;">Return after retirement</td><td>The yearly growth rate on your corpus once you stop earning and start withdrawing from it. Usually kept lower/safer than the pre-retirement return, since large swings are riskier once you depend on the money monthly. The corpus is designed to be fully spent down by your life expectancy age — it's not "live off the interest forever," it's a depleting balance that earns this return along the way.</td></tr>
         <tr><td style="font-weight:600;">Fixed vs. step-up saving</td><td>A fixed SIP stays the same amount every month. A step-up SIP starts smaller but increases every year (e.g. alongside your salary) — usually more realistic for a growing career, and needs a smaller starting amount than a flat SIP for the same end goal.</td></tr>
         <tr><td style="font-weight:600;">Simple vs. custom inflation</td><td>Simple applies one inflation rate to all expenses — good if you're unsure. Custom lets you split expenses into General / Education / Healthcare, each with its own inflation rate, since education and healthcare often rise faster than general costs.</td></tr>
+        <tr><td style="font-weight:600;">Other assets/investments</td><td>An amount you directly estimate for land, property, gold, inheritance, etc. that you expect to have <strong>at your retirement date</strong>. Unlike current savings, this isn't grown by any rate — you're stating its value at retirement directly, so it's added as-is wherever your corpus is checked against your target.</td></tr>
       </table>
     </div>
 
@@ -186,7 +187,7 @@
 
       <h3>How "Compare ways to save" and "Blended portfolio" connect to your corpus target</h3>
       <div class="formula-list">
-        <p>Both sections now show the same three-part breakdown: <strong>monthly investment alone</strong>, <strong>+ current savings</strong> (hypothetically also growing at that same rate — not tracking where your money actually is today), and the resulting <strong>Total</strong> — compared directly against your corpus target, with a <strong>Covered (+surplus)</strong> or <strong>Shortfall</strong> status shown alongside.</p>
+        <p>Both sections show the same breakdown: <strong>monthly investment alone</strong>, <strong>+ current savings</strong> (hypothetically also growing at that same rate — not tracking where your money actually is today), <strong>+ other assets</strong> (your "Other assets" figure, added as-is since it's already a retirement-date value), and — in the Blended Portfolio section only — an optional <strong>+ new/custom investment</strong> with its own single rate. The resulting <strong>Total</strong> is compared directly against your corpus target, with a <strong>Covered (+surplus)</strong> or <strong>Shortfall</strong> status shown alongside.</p>
       </div>
 
       <h3>Worked example — Required salary today</h3>
@@ -209,6 +210,30 @@
         <tr><td style="font-weight:600;">Recurring Deposit (RD)</td><td>6.5%. Same idea as FD for monthly deposits; similar bank-guaranteed rates and taxability.</td></tr>
       </table>
       <p class="note">All rates above are illustrative reference points as of 2026 and change over time — PPF/EPF are revised by the government, FD/RD vary by bank. Always check the current rate before actually investing.</p>
+    </div>
+
+    <div class="card guide-card">
+      <h2>What the "blended rate" means (Blended Portfolio section)</h2>
+      <div class="formula-list">
+        <p>A weighted average of all 7 instruments' rates, using the weight sliders you set (auto-normalized to 100%):</p>
+        <p><code>Blended rate = Σ (each instrument's weight% × its rate for this scenario)</code></p>
+        <p>Market-linked instruments (SIP, NPS, Gold) use their <strong>C</strong>onservative/<strong>E</strong>xpected/<strong>O</strong>ptimistic rate depending on the scenario column — shown next to each option's name in the Calculator tab. Guaranteed instruments (EPF, PPF, FD, RD) use the same single rate in all three columns. The same blended rate applies to both your monthly investment and current savings within a given scenario, so nothing is mixed across scenarios.</p>
+      </div>
+      <table>
+        <tr><td style="font-weight:600; width:110px;">Scenario</td><td style="font-weight:600;">Calculation (default weights: SIP 40%, NPS 10%, EPF 20%, Gold 5%, PPF 15%, FD 5%, RD 5%)</td><td style="font-weight:600; width:110px;">Blended rate</td></tr>
+        <tr><td>Conservative</td><td>0.40×8 + 0.10×8 + 0.20×8.25 + 0.05×5 + 0.15×7.1 + 0.05×6.5 + 0.05×6.5</td><td>≈ 7.6%</td></tr>
+        <tr><td>Expected</td><td>0.40×11 + 0.10×10 + 0.20×8.25 + 0.05×8 + 0.15×7.1 + 0.05×6.5 + 0.05×6.5</td><td>≈ 9.2%</td></tr>
+        <tr><td>Optimistic</td><td>0.40×14 + 0.10×12 + 0.20×8.25 + 0.05×11 + 0.15×7.1 + 0.05×6.5 + 0.05×6.5</td><td>≈ 10.7%</td></tr>
+      </table>
+      <p class="note">These numbers are echoed live in the app's "Effective blended return" note. Shifting weight toward equity/NPS/gold widens and raises the range; shifting toward EPF/PPF/FD/RD narrows and lowers it.</p>
+      <h3>What's included in the total</h3>
+      <div class="formula-list">
+        <p>1. <strong>Monthly investment only</strong> — the amount you set, at the blended rate<br>
+        2. <strong>+ current savings</strong> — hypothetically also at the blended rate<br>
+        3. <strong>+ new/custom investment</strong> — an optional extra monthly amount at its own single rate (not scenario-dependent)<br>
+        4. <strong>+ other assets</strong> — your "Other assets" figure, added as-is<br>
+        <strong>= Total</strong>, checked against your corpus target.</p>
+      </div>
     </div>
 
     <div class="card guide-card">
@@ -240,7 +265,7 @@
     </div>
 
     <div class="disclaimer">
-      This tool is built for personal and educational use. It is not financial, investment, tax, or insurance advice, and the people who built or shared it are not liable for decisions made using it. Assumptions are simplified and real markets, expenses, and personal circumstances vary. It does not account for other assets or income you may have (land, property, inheritance, pension, rental income, family support, etc.), which could change your actual required saving or salary. For decisions involving real money, please consult a licensed financial advisor and/or insurance professional.
+      This tool is built for personal and educational use. It is not financial, investment, tax, or insurance advice, and the people who built or shared it are not liable for decisions made using it. Assumptions are simplified and real markets, expenses, and personal circumstances vary. The "Other assets" field is only as accurate as the number you enter — the tool does not independently verify or know about your actual assets or income. It also does not account for pension or rental income streams, which would further reduce your actual required saving. For decisions involving real money, please consult a licensed financial advisor and/or insurance professional.
     </div>
   </div>
 
@@ -283,7 +308,13 @@
         <div class="val-wrap">₹<input type="number" class="val-input" id="cur-out" value="500000" min="0" max="30000000" step="100000"></div>
         <input type="range" min="0" max="30000000" step="100000" value="500000" id="cur">
       </div>
+      <div class="field">
+        <label>Other assets/investments (expected value at retirement)</label>
+        <div class="val-wrap">₹<input type="number" class="val-input" id="otherassets-out" value="0" min="0" max="50000000" step="100000"></div>
+        <input type="range" min="0" max="50000000" step="100000" value="0" id="otherassets">
+      </div>
     </div>
+    <p class="note">"Other assets" — e.g. land, property, gold, inheritance you expect — is treated as an amount you're directly estimating <strong>as of your retirement date</strong>, so it's added as-is to your projected corpus, not grown further by any rate.</p>
   </div>
 
   <div class="card">
@@ -378,7 +409,7 @@
 
   <div class="card">
     <h2>Compare ways to save the same amount</h2>
-    <p class="desc">Each row is a standalone "what if" — it assumes 100% of your monthly amount goes into <em>only that one option</em>, not split across rows. Market-linked options show a range; government/bank-backed options show one guaranteed-as-of-today rate. The "Total (incl. current savings)" column additionally assumes your existing current savings (from "Your basics") are <em>also</em> sitting in that same option, growing at that row's rate — not tracking where your money actually sits today, just a clean way to compare all-in-on-one-option scenarios. It's checked against your corpus target. To see a realistic mix instead of one option at a time, use "Blended portfolio" further down.</p>
+    <p class="desc">Each row is a standalone "what if" — it assumes 100% of your monthly amount goes into <em>only that one option</em>, not split across rows. Market-linked options show a range; government/bank-backed options show one guaranteed-as-of-today rate. The "Total (incl. current savings)" column additionally assumes your existing current savings (from "Your basics") are <em>also</em> sitting in that same option, growing at that row's rate — not tracking where your money actually sits today, just a clean way to compare all-in-on-one-option scenarios. Your "Other assets" figure (from "Your basics") is also added in as-is, since it's already a value you're estimating at retirement. It's checked against your corpus target. To see a realistic mix instead of one option at a time, use "Blended portfolio" further down.</p>
     <div class="field" style="max-width:340px; margin-bottom:16px;">
       <label>Monthly amount you can invest</label>
       <div class="val-wrap">₹<input type="number" class="val-input" id="invamt-out" value="20000" min="1000" max="300000" step="1000"></div>
@@ -395,8 +426,23 @@
   <div class="card">
     <h2>Blended portfolio</h2>
     <p class="desc">Most people don't put everything in one place. Set relative weights below (they don't need to add to exactly 100 — they're auto-normalized) to see what a mixed portfolio — your current savings <em>plus</em> the monthly amount set above, both growing at the blended rate — could add up to by retirement.</p>
+    <p class="note"><strong>C</strong> = Conservative rate, <strong>E</strong> = Expected rate, <strong>O</strong> = Optimistic rate, shown next to each option below (guaranteed options show one fixed rate instead, since they don't vary by scenario).</p>
     <div class="grid" id="blend-sliders"></div>
     <p class="note" id="blend-weight-note"></p>
+
+    <p class="desc" style="margin-top:18px;">Optional: add one more investment not covered above, with its own amount and rate:</p>
+    <div class="grid">
+      <div class="field">
+        <label>New/custom investment: monthly amount</label>
+        <div class="val-wrap">₹<input type="number" class="val-input" id="custamt-out" value="0" min="0" max="300000" step="1000"></div>
+        <input type="range" min="0" max="300000" step="1000" value="0" id="custamt">
+      </div>
+      <div class="field">
+        <label>New/custom investment: expected annual rate</label>
+        <div class="val-wrap"><input type="number" class="val-input" id="custrate-out" value="10" min="0" max="20" step="0.5">%</div>
+        <input type="range" min="0" max="20" step="0.5" value="10" id="custrate">
+      </div>
+    </div>
 
     <p class="desc" style="margin-top:14px;">Monthly investment only, at the blended rate:</p>
     <div class="scenario-row">
@@ -412,7 +458,17 @@
       <div class="metric"><p class="label">Optimistic</p><p class="value" id="out-blend-cur-high">-</p></div>
     </div>
 
-    <p class="desc" style="margin-top:14px;">= Total (incl. current savings):</p>
+    <p class="desc" style="margin-top:14px;" id="cust-inv-label">+ new/custom investment, at its own rate:</p>
+    <div class="scenario-row" id="cust-inv-row">
+      <div class="metric"><p class="label">Amount</p><p class="value" id="out-blend-cust">-</p></div>
+    </div>
+
+    <p class="desc" style="margin-top:14px;">+ other assets/investments (from "Your basics", value at retirement — not grown further):</p>
+    <div class="scenario-row">
+      <div class="metric"><p class="value" id="out-blend-other">-</p></div>
+    </div>
+
+    <p class="desc" style="margin-top:14px;">= Total (incl. current savings, custom investment, and other assets):</p>
     <div class="scenario-row">
       <div class="metric"><p class="label">Conservative</p><p class="value" id="out-blend-low">-</p></div>
       <div class="metric"><p class="label">Expected</p><p class="value" id="out-blend-mid">-</p></div>
@@ -595,10 +651,13 @@ $('btn-sip-stepup').addEventListener('click', () => setSipMode('stepup'));
   const wrap = $('blend-sliders');
   BLEND_ORDER.forEach(key => {
     const info = MARKET[key] || FIXED[key];
+    const rateLabel = MARKET[key]
+      ? ' (C: ' + (MARKET[key].low*100).toFixed(0) + '% ; E: ' + (MARKET[key].base*100).toFixed(0) + '% ; O: ' + (MARKET[key].high*100).toFixed(0) + '%)'
+      : ' (' + (FIXED[key].rate*100).toFixed(2) + '%, guaranteed)';
     const div = document.createElement('div');
     div.className = 'field';
     div.innerHTML =
-      '<label>' + info.name + ' weight</label>' +
+      '<label>' + info.name + ' weight' + rateLabel + '</label>' +
       '<div class="val-wrap"><input type="number" class="val-input" id="w-' + key + '-out" value="' + BLEND_DEFAULTS[key] + '" min="0" max="100" step="5"></div>' +
       '<input type="range" min="0" max="100" step="5" value="' + BLEND_DEFAULTS[key] + '" id="w-' + key + '">';
     wrap.appendChild(div);
@@ -636,6 +695,7 @@ function compute() {
   const pre = +$('pre').value / 100;
   const post = +$('post').value / 100;
   const cur = +$('cur').value;
+  const otherAssets = +$('otherassets').value;
 
   $('age-out').value = age;
   $('retage-out').value = retAge;
@@ -644,6 +704,7 @@ function compute() {
   $('pre-out').value = $('pre').value;
   $('post-out').value = $('post').value;
   $('cur-out').value = cur;
+  $('otherassets-out').value = otherAssets;
   $('infl-out').value = $('infl').value;
   $('geninfl-out').value = $('geninfl').value;
   $('edupct-out').value = $('edupct').value;
@@ -686,7 +747,7 @@ function compute() {
   const sipVals = {};
   ['low', 'mid', 'high'].forEach(k => {
     const scenarioReturn = scenarios[k];
-    const futCur = cur * Math.pow(1 + scenarioReturn, yearsToRet);
+    const futCur = cur * Math.pow(1 + scenarioReturn, yearsToRet) + otherAssets;
     const gap = Math.max(corpus - futCur, 0);
     sipVals[k] = sipMode === 'stepup'
       ? requiredStepUp(gap, stepUpRate, scenarioReturn, totalMonthsPre)
@@ -710,10 +771,10 @@ function compute() {
     warnEl.style.display = 'none';
   }
 
-  renderCompare(totalMonthsPre, yearsToRet, cur, corpus);
-  renderBlend(totalMonthsPre, yearsToRet, cur, corpus);
+  renderCompare(totalMonthsPre, yearsToRet, cur, corpus, otherAssets);
+  renderBlend(totalMonthsPre, yearsToRet, cur, corpus, otherAssets);
   renderSafetyNet();
-  renderSalaryProjection(requiredSalary, totalMonthsPre, yearsToRet, cur, pre, retAge, corpus);
+  renderSalaryProjection(requiredSalary, totalMonthsPre, yearsToRet, cur, pre, retAge, corpus, otherAssets);
   renderChart(yearsToRet, yearsInRet, age, futExp);
 }
 
@@ -724,7 +785,7 @@ function statusPill(total, corpus) {
   return '<span class="status-pill status-warn">Shortfall ' + fmtINR(corpus - total) + '</span>';
 }
 
-function renderCompare(monthsToRet, yearsToRet, cur, corpus) {
+function renderCompare(monthsToRet, yearsToRet, cur, corpus, otherAssets) {
   const amt = +$('invamt').value;
   $('invamt-out').value = amt;
   const body = $('compare-body');
@@ -736,15 +797,15 @@ function renderCompare(monthsToRet, yearsToRet, cur, corpus) {
     const high = fvAnnuity(amt, m.high, monthsToRet);
     const curLow = cur * Math.pow(1 + m.low, yearsToRet);
     const curHigh = cur * Math.pow(1 + m.high, yearsToRet);
-    const totalLow = low + curLow;
-    const totalHigh = high + curHigh;
+    const totalLow = low + curLow + otherAssets;
+    const totalHigh = high + curHigh + otherAssets;
     rows.push([m.name, (m.low*100).toFixed(0) + '–' + (m.high*100).toFixed(0) + '%', fmtINR(low) + ' – ' + fmtINR(high), fmtINR(totalLow) + ' – ' + fmtINR(totalHigh), statusPill(totalLow, corpus), m.note]);
   });
   ['epf','ppf','fd','rd'].forEach(k => {
     const f = FIXED[k];
     const fv = fvAnnuity(amt, f.rate, monthsToRet);
     const futCur = cur * Math.pow(1 + f.rate, yearsToRet);
-    const total = fv + futCur;
+    const total = fv + futCur + otherAssets;
     rows.push([f.name, (f.rate*100).toFixed(2) + '% (guaranteed)', fmtINR(fv), fmtINR(total), statusPill(total, corpus), f.note]);
   });
   rows.forEach(cols => {
@@ -754,7 +815,7 @@ function renderCompare(monthsToRet, yearsToRet, cur, corpus) {
   });
 }
 
-function renderBlend(monthsToRet, yearsToRet, cur, corpus) {
+function renderBlend(monthsToRet, yearsToRet, cur, corpus, otherAssets) {
   const amt = +$('invamt').value;
   let totalWeight = 0;
   const weights = {};
@@ -776,15 +837,21 @@ function renderBlend(monthsToRet, yearsToRet, cur, corpus) {
   const rMid = blendedRate('base');
   const rHigh = blendedRate('high');
 
+  const custAmt = +$('custamt').value;
+  const custRate = +$('custrate').value / 100;
+  $('custamt-out').value = custAmt;
+  $('custrate-out').value = $('custrate').value;
+  const custFV = fvAnnuity(custAmt, custRate, monthsToRet);
+
   const investedLow = fvAnnuity(amt, rLow, monthsToRet);
   const investedMid = fvAnnuity(amt, rMid, monthsToRet);
   const investedHigh = fvAnnuity(amt, rHigh, monthsToRet);
   const curLow = cur * Math.pow(1 + rLow, yearsToRet);
   const curMid = cur * Math.pow(1 + rMid, yearsToRet);
   const curHigh = cur * Math.pow(1 + rHigh, yearsToRet);
-  const totalLow = investedLow + curLow;
-  const totalMid = investedMid + curMid;
-  const totalHigh = investedHigh + curHigh;
+  const totalLow = investedLow + curLow + custFV + otherAssets;
+  const totalMid = investedMid + curMid + custFV + otherAssets;
+  const totalHigh = investedHigh + curHigh + custFV + otherAssets;
 
   $('out-blend-invested-low').textContent = fmtINR(investedLow);
   $('out-blend-invested-mid').textContent = fmtINR(investedMid);
@@ -792,6 +859,11 @@ function renderBlend(monthsToRet, yearsToRet, cur, corpus) {
   $('out-blend-cur-low').textContent = fmtINR(curLow);
   $('out-blend-cur-mid').textContent = fmtINR(curMid);
   $('out-blend-cur-high').textContent = fmtINR(curHigh);
+  $('cust-inv-label').textContent = custAmt > 0
+    ? '+ new/custom investment (₹' + custAmt.toLocaleString('en-IN') + '/mo at ' + $('custrate').value + '%):'
+    : '+ new/custom investment (none added):';
+  $('out-blend-cust').textContent = fmtINR(custFV);
+  $('out-blend-other').textContent = fmtINR(otherAssets);
   $('out-blend-low').textContent = fmtINR(totalLow);
   $('out-blend-mid').textContent = fmtINR(totalMid);
   $('out-blend-high').textContent = fmtINR(totalHigh);
@@ -857,7 +929,7 @@ function simulateSalaryPath(salaryToday, growthRate, monthsToRet, cur, preRate) 
   return snapshots;
 }
 
-function renderSalaryProjection(salaryToday, monthsToRet, yearsToRet, cur, preRate, retAge, corpusTarget) {
+function renderSalaryProjection(salaryToday, monthsToRet, yearsToRet, cur, preRate, retAge, corpusTarget, otherAssets) {
   const growthRate = +$('salgrowth').value / 100;
   $('salgrowth-out').value = $('salgrowth').value;
 
@@ -894,8 +966,8 @@ function renderSalaryProjection(salaryToday, monthsToRet, yearsToRet, cur, preRa
   const finalFlat = flatPath[yearsToRet * 12];
   const finalGrow = growPath[yearsToRet * 12];
   $('salary-status').innerHTML =
-    'At retirement — Flat salary path: ' + statusPill(finalFlat.corpus, corpusTarget) +
-    ' &nbsp; | &nbsp; Growing salary path (' + $('salgrowth').value + '%/yr): ' + statusPill(finalGrow.corpus, corpusTarget) +
+    'At retirement (incl. other assets) — Flat salary path: ' + statusPill(finalFlat.corpus + otherAssets, corpusTarget) +
+    ' &nbsp; | &nbsp; Growing salary path (' + $('salgrowth').value + '%/yr): ' + statusPill(finalGrow.corpus + otherAssets, corpusTarget) +
     ' &nbsp; vs. corpus target ' + fmtINR(corpusTarget) + '.';
 }
 
@@ -927,7 +999,7 @@ function renderChart(yearsToRet, yearsInRet, age, futExp) {
   }
 }
 
-['age','retage','life','exp','infl','pre','post','cur','geninfl','edupct','eduinfl','healthpct','healthinfl','stepup','invamt','ef','efmonths','lifecover','healthcover','salgrowth'].forEach(id => $(id).addEventListener('input', compute));
+['age','retage','life','exp','infl','pre','post','cur','otherassets','geninfl','edupct','eduinfl','healthpct','healthinfl','stepup','invamt','ef','efmonths','lifecover','healthcover','salgrowth','custamt','custrate'].forEach(id => $(id).addEventListener('input', compute));
 
 // Wire each editable number box back to its slider, so typing a value updates the slider too.
 const SPECIAL_RANGE_MAP = { 'life-out2': 'lifecover', 'health-out': 'healthcover' };

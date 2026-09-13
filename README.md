@@ -1,7 +1,7 @@
 # Retirement & Required Income Calculator (India)
 
 > [!CAUTION]
-> **NOT FINANCIAL, LEGAL, TAX, OR INSURANCE ADVICE.** This is a personal, educational calculator built for illustration only. It uses simplified assumptions and generic reference rates that may be outdated or may not apply to your situation. It does **not** know your income, dependents, debts, goals, or risk tolerance. **It also does not account for other assets or income you may have — land, property, gold jewelry, inheritance, a pension, rental income, or family support — all of which could reduce the actual saving/salary you'd need.** Nothing here is a recommendation to buy, sell, or hold any financial product. Do not make investment, insurance, or retirement decisions based solely on this tool — consult a licensed financial advisor, tax professional, or insurance professional for advice specific to you. The creator(s) and distributor(s) of this tool accept no liability for outcomes from its use. All calculations run locally in your browser — no data is collected, stored, or transmitted anywhere.
+> **NOT FINANCIAL, LEGAL, TAX, OR INSURANCE ADVICE.** This is a personal, educational calculator built for illustration only. It uses simplified assumptions and generic reference rates that may be outdated or may not apply to your situation. It does **not** know your income, dependents, debts, goals, or risk tolerance. **An "Other assets" field lets you add a rough value for land, property, inheritance, etc. at retirement, but it's only as accurate as the number you enter — it does not independently know about or verify any income or assets you have.** Nothing here is a recommendation to buy, sell, or hold any financial product. Do not make investment, insurance, or retirement decisions based solely on this tool — consult a licensed financial advisor, tax professional, or insurance professional for advice specific to you. The creator(s) and distributor(s) of this tool accept no liability for outcomes from its use. All calculations run locally in your browser — no data is collected, stored, or transmitted anywhere.
 
 A single-page, no-signup calculator to estimate:
 - how your monthly expenses grow with inflation until retirement
@@ -29,6 +29,7 @@ Open `index.html` directly, or via this repo's GitHub Pages link, to use it — 
 | **Return after retirement** | The yearly growth rate on your corpus once you stop earning and start withdrawing from it. Usually kept lower/safer than the pre-retirement return, since large swings are riskier once you depend on the money monthly. |
 | **Fixed vs. step-up saving** | A *fixed* SIP stays the same amount every month. A *step-up* SIP starts smaller but increases every year (e.g. alongside your salary) — usually more realistic for a growing career, and needs a smaller starting amount than a flat SIP for the same end goal. |
 | **Simple vs. custom inflation** | *Simple* applies one inflation rate to all expenses — good if you're unsure. *Custom* lets you split expenses into General / Education / Healthcare, each with its own inflation rate, since education and healthcare often rise faster than general costs. |
+| **Other assets/investments** | An amount you directly estimate for land, property, gold, inheritance, or anything else you expect to have **at your retirement date**. Unlike current savings, this is *not* grown by any rate — you're telling the tool its value at retirement directly, so it's simply added as-is wherever your corpus is checked against your target. |
 
 ## How the numbers are calculated
 
@@ -64,7 +65,7 @@ If you retire with that corpus and withdraw that monthly expense amount (increas
 
 These two sections now check your actual plan against the corpus target, not just show projections in isolation:
 
-- **"Total (incl. current savings)" column/figure** = (the monthly amount you set, grown at that option's/blend's rate) **+** (your existing current savings from "Your basics", *hypothetically also* sitting in that same option/blend and growing at the same rate — this does not track where your money actually sits today, it's a clean way to compare "all-in-on-one-option" scenarios). The Blended Portfolio section shows this same three-part breakdown (investment alone, + current savings, = total) rather than just the combined figure, so both sections are equally transparent about what's included.
+- **"Total (incl. current savings)" column/figure** = (the monthly amount you set, grown at that option's/blend's rate) **+** (your existing current savings from "Your basics", *hypothetically also* sitting in that same option/blend and growing at the same rate — this does not track where your money actually sits today, it's a clean way to compare "all-in-on-one-option" scenarios) **+** (your "Other assets" figure from "Your basics," added as-is since it's already a retirement-date value, not grown further). The Blended Portfolio section breaks this into separate lines (investment alone, + current savings, + custom investment, + other assets, = total) rather than one combined figure, so it's equally transparent about what's included — see below.
 - That Total is compared directly against your **Corpus needed at retirement** figure, with a **Covered (+surplus)** or **Shortfall (amount)** status shown next to it
 
 This is what actually answers "if my money were structured this way, would I reach my retirement corpus?" — rather than leaving you to manually add up numbers from different parts of the tool.
@@ -90,6 +91,37 @@ That's the salary that covers both your current lifestyle and gets you to your r
 | **Recurring Deposit (RD)** | 6.5% | Same idea as FD but for monthly deposits; similar bank-guaranteed rates and same taxability. |
 
 All rates above are illustrative reference points as of 2026 and change over time — PPF and EPF rates are revised by the government, FD/RD vary by bank. Always check the current rate before actually investing.
+
+## What the "blended rate" means (Blended Portfolio section)
+
+The blended rate is a weighted average of all 7 instruments' rates, using the weight sliders you set (auto-normalized to 100%):
+
+```
+Blended rate = Σ (each instrument's weight% × its rate for this scenario)
+```
+
+Market-linked instruments (SIP, NPS, Gold) use their **C**onservative/**E**xpected/**O**ptimistic rate depending on which scenario column you're looking at — these letters are shown next to each option's name in the app. Guaranteed instruments (EPF, PPF, FD, RD) use the same single rate in all three columns, since they don't vary by scenario. The same blended rate is applied to both your monthly investment and your current savings within a given scenario column, so nothing is mixed across scenarios.
+
+**Worked example** with the default weights (SIP 40%, NPS 10%, EPF 20%, Gold 5%, PPF 15%, FD 5%, RD 5%):
+
+| Scenario | Calculation | Blended rate |
+|---|---|---|
+| Conservative | 0.40×8 + 0.10×8 + 0.20×8.25 + 0.05×5 + 0.15×7.1 + 0.05×6.5 + 0.05×6.5 | ≈ 7.6% |
+| Expected | 0.40×11 + 0.10×10 + 0.20×8.25 + 0.05×8 + 0.15×7.1 + 0.05×6.5 + 0.05×6.5 | ≈ 9.2% |
+| Optimistic | 0.40×14 + 0.10×12 + 0.20×8.25 + 0.05×11 + 0.15×7.1 + 0.05×6.5 + 0.05×6.5 | ≈ 10.7% |
+
+These numbers are echoed live in the app's "Effective blended return" note. Shifting weight toward equity/NPS/gold widens and raises the range; shifting toward EPF/PPF/FD/RD narrows and lowers it, since those don't vary by scenario.
+
+### What's included in the Blended Portfolio total
+
+The section breaks the total into four parts, shown separately before being added together:
+
+1. **Monthly investment only** — the amount you set, grown at the blended rate
+2. **+ current savings** — your existing savings, hypothetically also growing at the blended rate (not tracking where your money actually sits today)
+3. **+ new/custom investment** — an optional extra monthly amount with its *own* single rate you choose (not part of the weighted blend, and not scenario-dependent — one rate applies to all three columns)
+4. **+ other assets** — your "Other assets" figure from "Your basics," added as-is since it's already a value estimated at retirement, not grown further
+
+**= Total**, checked against your corpus target with a Covered/Shortfall status.
 
 ## About the safety-net check
 
@@ -131,4 +163,4 @@ Unlike the "Required saving" figure elsewhere (which solves backward for the exa
 
 ## General disclaimer
 
-This tool is built for personal and educational use. It is not financial, investment, tax, or insurance advice, and the people who built or shared it are not liable for decisions made using it. Assumptions are simplified (e.g. constant inflation/return rates) and real markets, expenses, and personal circumstances vary. It does not account for other assets or income you may have (land, property, inheritance, pension, rental income, family support, etc.), which could change your actual required saving or salary. For decisions involving real money, please consult a licensed financial advisor and/or insurance professional.
+This tool is built for personal and educational use. It is not financial, investment, tax, or insurance advice, and the people who built or shared it are not liable for decisions made using it. Assumptions are simplified (e.g. constant inflation/return rates) and real markets, expenses, and personal circumstances vary. The "Other assets" field is only as accurate as the number you enter — the tool does not independently verify or know about your actual assets or income. It also does not account for pension or rental income streams, which would further reduce your actual required saving. For decisions involving real money, please consult a licensed financial advisor and/or insurance professional.
