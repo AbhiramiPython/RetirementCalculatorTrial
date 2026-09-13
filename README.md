@@ -22,6 +22,8 @@ Open `index.html` directly, or via this repo's GitHub Pages link, to use it — 
 
 ## What the inputs mean
 
+**No field has a hard limit.** Every slider has a matching number box above it — type any value directly and it's used exactly as entered, even if it's far outside the slider's drag range (the slider itself just visually maxes out; your typed number is what's actually used in every calculation). If a value looks unusual for a retirement plan (e.g. a very high inflation rate, or a retirement age far outside typical range), the app shows a small polite warning underneath asking you to double-check it — but it never blocks or silently changes what you entered.
+
 | Term | Meaning |
 |---|---|
 | **Inflation rate** | How fast prices rise every year. If a ₹100 grocery bill costs ₹106 next year, that's 6% inflation. It quietly shrinks what your money can buy over time — future expenses look bigger than today's mainly because of this. |

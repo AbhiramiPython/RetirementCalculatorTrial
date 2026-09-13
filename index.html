@@ -96,6 +96,8 @@
   .status-ok { background: var(--ok-bg); color: var(--ok-text); }
   .status-warn { background: var(--warn-bg); color: var(--warn-text); }
   .note { font-size: 12px; color: var(--text-secondary); margin-top: 10px; }
+  .field-warning { font-size: 12px; color: var(--warn-text); background: var(--warn-bg); border: 1px solid var(--warn-border); border-radius: 6px; padding: 6px 10px; margin: -2px 0 10px; display: none; grid-column: 1 / -1; }
+  .field-warning.show { display: block; }
   .tab-bar { display: flex; gap: 8px; margin-bottom: 20px; border-bottom: 1px solid var(--border); }
   .tab-btn {
     border: none; background: none; cursor: pointer;
@@ -152,6 +154,7 @@
 
     <div class="card guide-card">
       <h2>What the inputs mean</h2>
+      <p class="desc"><strong>No field has a hard limit.</strong> Every slider has a matching number box above it — type any value directly and it's used exactly as entered, even outside the slider's drag range (the slider just visually maxes out; your typed number is what's actually used everywhere). If a value looks unusual for a retirement plan, a small polite warning appears underneath asking you to double-check — it never blocks or silently changes what you typed.</p>
       <table>
         <tr><td style="font-weight:600; width:180px;">Inflation rate</td><td>How fast prices rise every year. If a ₹100 grocery bill costs ₹106 next year, that's 6% inflation. It quietly shrinks what your money can buy over time — future expenses look bigger than today's mainly because of this.</td></tr>
         <tr><td style="font-weight:600;">Return before retirement</td><td>The yearly growth rate you expect on money you invest while still working. Higher-growth options like equity have historically given more, but with real ups and downs year to year — which is why results are shown as a range, not one number.</td></tr>
@@ -275,44 +278,45 @@
     <div class="grid">
       <div class="field">
         <label>Current age</label>
-        <div class="val-wrap"><input type="number" class="val-input" id="age-out" value="35" min="20" max="55" step="1"></div>
+        <div class="val-wrap"><input type="number" class="val-input" id="age-out" value="35" step="1"></div>
         <input type="range" min="20" max="55" step="1" value="35" id="age">
       </div>
       <div class="field">
         <label>Retirement age</label>
-        <div class="val-wrap"><input type="number" class="val-input" id="retage-out" value="60" min="45" max="70" step="1"></div>
+        <div class="val-wrap"><input type="number" class="val-input" id="retage-out" value="60" step="1"></div>
         <input type="range" min="45" max="70" step="1" value="60" id="retage">
       </div>
       <div class="field">
         <label>Life expectancy</label>
-        <div class="val-wrap"><input type="number" class="val-input" id="life-out" value="85" min="70" max="95" step="1"></div>
+        <div class="val-wrap"><input type="number" class="val-input" id="life-out" value="85" step="1"></div>
         <input type="range" min="70" max="95" step="1" value="85" id="life">
       </div>
       <div class="field">
         <label>Current monthly expenses</label>
-        <div class="val-wrap">₹<input type="number" class="val-input" id="exp-out" value="60000" min="10000" max="500000" step="5000"></div>
+        <div class="val-wrap">₹<input type="number" class="val-input" id="exp-out" value="60000" step="5000"></div>
         <input type="range" min="10000" max="500000" step="5000" value="60000" id="exp">
       </div>
       <div class="field">
         <label>Return before retirement (expected)</label>
-        <div class="val-wrap"><input type="number" class="val-input" id="pre-out" value="11" min="4" max="16" step="0.5">%</div>
+        <div class="val-wrap"><input type="number" class="val-input" id="pre-out" value="11" step="0.5">%</div>
         <input type="range" min="4" max="16" step="0.5" value="11" id="pre">
       </div>
       <div class="field">
         <label>Return after retirement</label>
-        <div class="val-wrap"><input type="number" class="val-input" id="post-out" value="7" min="2" max="12" step="0.5">%</div>
+        <div class="val-wrap"><input type="number" class="val-input" id="post-out" value="7" step="0.5">%</div>
         <input type="range" min="2" max="12" step="0.5" value="7" id="post">
       </div>
       <div class="field">
         <label>Current retirement savings</label>
-        <div class="val-wrap">₹<input type="number" class="val-input" id="cur-out" value="500000" min="0" max="30000000" step="100000"></div>
+        <div class="val-wrap">₹<input type="number" class="val-input" id="cur-out" value="500000" step="100000"></div>
         <input type="range" min="0" max="30000000" step="100000" value="500000" id="cur">
       </div>
       <div class="field">
         <label>Other assets/investments (expected value at retirement)</label>
-        <div class="val-wrap">₹<input type="number" class="val-input" id="otherassets-out" value="0" min="0" max="50000000" step="100000"></div>
-        <input type="range" min="0" max="50000000" step="100000" value="0" id="otherassets">
+        <div class="val-wrap">₹<input type="number" class="val-input" id="otherassets-out" value="0" step="500000"></div>
+        <input type="range" min="0" max="500000000" step="500000" value="0" id="otherassets">
       </div>
+      <p class="note" style="margin-top:-8px;">Slider range goes up to ₹50 crore. If you ever need more, type the exact amount in the box above.</p>
     </div>
     <p class="note">"Other assets" — e.g. land, property, gold, inheritance you expect — is treated as an amount you're directly estimating <strong>as of your retirement date</strong>, so it's added as-is to your projected corpus, not grown further by any rate.</p>
   </div>
@@ -328,7 +332,7 @@
     <div id="infl-simple-panel">
       <div class="field" style="max-width:340px;">
         <label>Inflation rate</label>
-        <div class="val-wrap"><input type="number" class="val-input" id="infl-out" value="6" min="3" max="10" step="0.5">%</div>
+        <div class="val-wrap"><input type="number" class="val-input" id="infl-out" value="6" step="0.5">%</div>
         <input type="range" min="3" max="10" step="0.5" value="6" id="infl">
       </div>
     </div>
@@ -337,27 +341,27 @@
       <div class="grid">
         <div class="field">
           <label>General expenses inflation</label>
-          <div class="val-wrap"><input type="number" class="val-input" id="geninfl-out" value="6" min="3" max="10" step="0.5">%</div>
+          <div class="val-wrap"><input type="number" class="val-input" id="geninfl-out" value="6" step="0.5">%</div>
           <input type="range" min="3" max="10" step="0.5" value="6" id="geninfl">
         </div>
         <div class="field">
           <label>Education: % of your expenses</label>
-          <div class="val-wrap"><input type="number" class="val-input" id="edupct-out" value="15" min="0" max="60" step="5">%</div>
+          <div class="val-wrap"><input type="number" class="val-input" id="edupct-out" value="15" step="5">%</div>
           <input type="range" min="0" max="60" step="5" value="15" id="edupct">
         </div>
         <div class="field">
           <label>Education inflation rate</label>
-          <div class="val-wrap"><input type="number" class="val-input" id="eduinfl-out" value="9" min="3" max="15" step="0.5">%</div>
+          <div class="val-wrap"><input type="number" class="val-input" id="eduinfl-out" value="9" step="0.5">%</div>
           <input type="range" min="3" max="15" step="0.5" value="9" id="eduinfl">
         </div>
         <div class="field">
           <label>Healthcare: % of your expenses</label>
-          <div class="val-wrap"><input type="number" class="val-input" id="healthpct-out" value="10" min="0" max="60" step="5">%</div>
+          <div class="val-wrap"><input type="number" class="val-input" id="healthpct-out" value="10" step="5">%</div>
           <input type="range" min="0" max="60" step="5" value="10" id="healthpct">
         </div>
         <div class="field">
           <label>Healthcare inflation rate</label>
-          <div class="val-wrap"><input type="number" class="val-input" id="healthinfl-out" value="9" min="3" max="15" step="0.5">%</div>
+          <div class="val-wrap"><input type="number" class="val-input" id="healthinfl-out" value="9" step="0.5">%</div>
           <input type="range" min="3" max="15" step="0.5" value="9" id="healthinfl">
         </div>
       </div>
@@ -375,7 +379,7 @@
     <div id="stepup-panel" style="display:none; max-width:340px; margin-bottom:8px;">
       <div class="field">
         <label>Annual step-up</label>
-        <div class="val-wrap"><input type="number" class="val-input" id="stepup-out" value="8" min="3" max="20" step="1">%</div>
+        <div class="val-wrap"><input type="number" class="val-input" id="stepup-out" value="8" step="1">%</div>
         <input type="range" min="3" max="20" step="1" value="8" id="stepup">
       </div>
     </div>
@@ -412,7 +416,7 @@
     <p class="desc">Each row is a standalone "what if" — it assumes 100% of your monthly amount goes into <em>only that one option</em>, not split across rows. Market-linked options show a range; government/bank-backed options show one guaranteed-as-of-today rate. The "Total (incl. current savings)" column additionally assumes your existing current savings (from "Your basics") are <em>also</em> sitting in that same option, growing at that row's rate — not tracking where your money actually sits today, just a clean way to compare all-in-on-one-option scenarios. Your "Other assets" figure (from "Your basics") is also added in as-is, since it's already a value you're estimating at retirement. It's checked against your corpus target. To see a realistic mix instead of one option at a time, use "Blended portfolio" further down.</p>
     <div class="field" style="max-width:340px; margin-bottom:16px;">
       <label>Monthly amount you can invest</label>
-      <div class="val-wrap">₹<input type="number" class="val-input" id="invamt-out" value="20000" min="1000" max="300000" step="1000"></div>
+      <div class="val-wrap">₹<input type="number" class="val-input" id="invamt-out" value="20000" step="1000"></div>
       <input type="range" min="1000" max="300000" step="1000" value="20000" id="invamt">
     </div>
     <div style="overflow-x:auto;">
@@ -434,12 +438,12 @@
     <div class="grid">
       <div class="field">
         <label>New/custom investment: monthly amount</label>
-        <div class="val-wrap">₹<input type="number" class="val-input" id="custamt-out" value="0" min="0" max="300000" step="1000"></div>
+        <div class="val-wrap">₹<input type="number" class="val-input" id="custamt-out" value="0" step="1000"></div>
         <input type="range" min="0" max="300000" step="1000" value="0" id="custamt">
       </div>
       <div class="field">
         <label>New/custom investment: expected annual rate</label>
-        <div class="val-wrap"><input type="number" class="val-input" id="custrate-out" value="10" min="0" max="20" step="0.5">%</div>
+        <div class="val-wrap"><input type="number" class="val-input" id="custrate-out" value="10" step="0.5">%</div>
         <input type="range" min="0" max="20" step="0.5" value="10" id="custrate">
       </div>
     </div>
@@ -484,22 +488,22 @@
     <div class="grid">
       <div class="field">
         <label>Emergency fund you currently have</label>
-        <div class="val-wrap">₹<input type="number" class="val-input" id="ef-out" value="100000" min="0" max="2000000" step="10000"></div>
+        <div class="val-wrap">₹<input type="number" class="val-input" id="ef-out" value="100000" step="10000"></div>
         <input type="range" min="0" max="2000000" step="10000" value="100000" id="ef">
       </div>
       <div class="field">
         <label>Months of expenses to target</label>
-        <div class="val-wrap"><input type="number" class="val-input" id="efmonths-out" value="6" min="3" max="12" step="1"></div>
+        <div class="val-wrap"><input type="number" class="val-input" id="efmonths-out" value="6" step="1"></div>
         <input type="range" min="3" max="12" step="1" value="6" id="efmonths">
       </div>
       <div class="field">
         <label>Term life cover you currently have</label>
-        <div class="val-wrap">₹<input type="number" class="val-input" id="life-out2" value="2000000" min="0" max="20000000" step="100000"></div>
+        <div class="val-wrap">₹<input type="number" class="val-input" id="life-out2" value="2000000" step="100000"></div>
         <input type="range" min="0" max="20000000" step="100000" value="2000000" id="lifecover">
       </div>
       <div class="field">
         <label>Health insurance cover you currently have</label>
-        <div class="val-wrap">₹<input type="number" class="val-input" id="health-out" value="300000" min="0" max="5000000" step="50000"></div>
+        <div class="val-wrap">₹<input type="number" class="val-input" id="health-out" value="300000" step="50000"></div>
         <input type="range" min="0" max="5000000" step="50000" value="300000" id="healthcover">
       </div>
     </div>
@@ -525,7 +529,7 @@
     <p class="desc">"Required salary today" is a snapshot, not a lifetime number — this table shows what happens if your salary stays flat vs. grows every year, from today until retirement. Saving here = salary minus expenses at each point (not the backward-solved "Required saving" above), so it can shrink or go negative if salary can't keep up.</p>
     <div class="field" style="max-width:340px; margin-bottom:16px;">
       <label>Assumed annual salary growth</label>
-      <div class="val-wrap"><input type="number" class="val-input" id="salgrowth-out" value="8" min="0" max="15" step="0.5">%</div>
+      <div class="val-wrap"><input type="number" class="val-input" id="salgrowth-out" value="8" step="0.5">%</div>
       <input type="range" min="0" max="15" step="0.5" value="8" id="salgrowth">
     </div>
     <div style="overflow-x:auto;">
@@ -575,6 +579,13 @@ function switchTab(name) {
 <script>
 const $ = id => document.getElementById(id);
 const fmtINR = n => '₹' + Math.round(n).toLocaleString('en-IN');
+const REVERSE_OUT_MAP = { lifecover: 'life-out2', healthcover: 'health-out' };
+function outIdFor(rangeId) { return REVERSE_OUT_MAP[rangeId] || (rangeId + '-out'); }
+function getVal(rangeId) {
+  const el = $(outIdFor(rangeId));
+  const v = parseFloat(el.value);
+  return isNaN(v) ? 0 : v;
+}
 let chart;
 let inflMode = 'simple';
 let sipMode = 'fixed';
@@ -614,7 +625,7 @@ function requiredFixed(gap, annualRate, months) {
   const r = annualRate / 12;
   if (months <= 0) return 0;
   if (Math.abs(r) < 1e-9) return gap / months;
-  return gap * r / (Math.pow(1 + r, months) - 1);
+  return gap * r / ((Math.pow(1 + r, months) - 1) * (1 + r));
 }
 function requiredStepUp(gap, stepUpRate, annualRate, totalMonths) {
   if (totalMonths <= 0) return 0;
@@ -658,7 +669,7 @@ $('btn-sip-stepup').addEventListener('click', () => setSipMode('stepup'));
     div.className = 'field';
     div.innerHTML =
       '<label>' + info.name + ' weight' + rateLabel + '</label>' +
-      '<div class="val-wrap"><input type="number" class="val-input" id="w-' + key + '-out" value="' + BLEND_DEFAULTS[key] + '" min="0" max="100" step="5"></div>' +
+      '<div class="val-wrap"><input type="number" class="val-input" id="w-' + key + '-out" value="' + BLEND_DEFAULTS[key] + '" step="5"></div>' +
       '<input type="range" min="0" max="100" step="5" value="' + BLEND_DEFAULTS[key] + '" id="w-' + key + '">';
     wrap.appendChild(div);
   });
@@ -669,15 +680,15 @@ $('btn-sip-stepup').addEventListener('click', () => setSipMode('stepup'));
 
 function computeFutureExpense(years) {
   if (inflMode === 'simple') {
-    const infl = +$('infl').value / 100;
-    return { futExp: +$('exp').value * Math.pow(1 + infl, years), inflEff: infl };
+    const infl = getVal('infl') / 100;
+    return { futExp: getVal('exp') * Math.pow(1 + infl, years), inflEff: infl };
   }
-  const exp = +$('exp').value;
-  const genInfl = +$('geninfl').value / 100;
-  const eduPct = +$('edupct').value;
-  const eduInfl = +$('eduinfl').value / 100;
-  const healthPct = +$('healthpct').value;
-  const healthInfl = +$('healthinfl').value / 100;
+  const exp = getVal('exp');
+  const genInfl = getVal('geninfl') / 100;
+  const eduPct = getVal('edupct');
+  const eduInfl = getVal('eduinfl') / 100;
+  const healthPct = getVal('healthpct');
+  const healthInfl = getVal('healthinfl') / 100;
   const genPct = Math.max(100 - eduPct - healthPct, 0);
   const futExp =
     exp * (genPct / 100) * Math.pow(1 + genInfl, years) +
@@ -688,32 +699,32 @@ function computeFutureExpense(years) {
 }
 
 function compute() {
-  const age = +$('age').value;
-  const retAge = +$('retage').value;
-  const life = +$('life').value;
-  const exp = +$('exp').value;
-  const pre = +$('pre').value / 100;
-  const post = +$('post').value / 100;
-  const cur = +$('cur').value;
-  const otherAssets = +$('otherassets').value;
+  const age = Math.round(getVal('age'));
+  const retAge = Math.round(getVal('retage'));
+  const life = Math.round(getVal('life'));
+  const exp = getVal('exp');
+  const pre = getVal('pre') / 100;
+  const post = getVal('post') / 100;
+  const cur = getVal('cur');
+  const otherAssets = getVal('otherassets');
 
   $('age-out').value = age;
   $('retage-out').value = retAge;
   $('life-out').value = life;
   $('exp-out').value = exp;
-  $('pre-out').value = $('pre').value;
-  $('post-out').value = $('post').value;
+  $('pre-out').value = getVal('pre');
+  $('post-out').value = getVal('post');
   $('cur-out').value = cur;
   $('otherassets-out').value = otherAssets;
-  $('infl-out').value = $('infl').value;
-  $('geninfl-out').value = $('geninfl').value;
-  $('edupct-out').value = $('edupct').value;
-  $('eduinfl-out').value = $('eduinfl').value;
-  $('healthpct-out').value = $('healthpct').value;
-  $('healthinfl-out').value = $('healthinfl').value;
-  $('stepup-out').value = $('stepup').value;
+  $('infl-out').value = getVal('infl');
+  $('geninfl-out').value = getVal('geninfl');
+  $('edupct-out').value = getVal('edupct');
+  $('eduinfl-out').value = getVal('eduinfl');
+  $('healthpct-out').value = getVal('healthpct');
+  $('healthinfl-out').value = getVal('healthinfl');
+  $('stepup-out').value = getVal('stepup');
   {
-    const genPct = Math.max(100 - (+$('edupct').value) - (+$('healthpct').value), 0);
+    const genPct = Math.max(100 - (getVal('edupct')) - (getVal('healthpct')), 0);
     $('genpct-note').innerHTML = 'Remaining <strong>' + genPct + '%</strong> of expenses treated as "general" at the general inflation rate above.';
   }
 
@@ -737,17 +748,17 @@ function compute() {
   $('out-corpus').textContent = fmtINR(corpus);
 
   // Required saving, range across pre-return scenarios
-  const preBasePct = +$('pre').value;
+  const preBasePct = getVal('pre');
   const scenarios = {
     low: Math.max(preBasePct - 3, 1) / 100,
     mid: preBasePct / 100,
     high: (preBasePct + 3) / 100
   };
-  const stepUpRate = +$('stepup').value / 100;
+  const stepUpRate = getVal('stepup') / 100;
   const sipVals = {};
   ['low', 'mid', 'high'].forEach(k => {
     const scenarioReturn = scenarios[k];
-    const futCur = cur * Math.pow(1 + scenarioReturn, yearsToRet) + otherAssets;
+    const futCur = cur * Math.pow(1 + scenarioReturn / 12, yearsToRet * 12) + otherAssets;
     const gap = Math.max(corpus - futCur, 0);
     sipVals[k] = sipMode === 'stepup'
       ? requiredStepUp(gap, stepUpRate, scenarioReturn, totalMonthsPre)
@@ -776,6 +787,7 @@ function compute() {
   renderSafetyNet();
   renderSalaryProjection(requiredSalary, totalMonthsPre, yearsToRet, cur, pre, retAge, corpus, otherAssets);
   renderChart(yearsToRet, yearsInRet, age, futExp);
+  checkSanity();
 }
 
 function statusPill(total, corpus) {
@@ -786,7 +798,7 @@ function statusPill(total, corpus) {
 }
 
 function renderCompare(monthsToRet, yearsToRet, cur, corpus, otherAssets) {
-  const amt = +$('invamt').value;
+  const amt = getVal('invamt');
   $('invamt-out').value = amt;
   const body = $('compare-body');
   body.innerHTML = '';
@@ -795,8 +807,8 @@ function renderCompare(monthsToRet, yearsToRet, cur, corpus, otherAssets) {
     const m = MARKET[k];
     const low = fvAnnuity(amt, m.low, monthsToRet);
     const high = fvAnnuity(amt, m.high, monthsToRet);
-    const curLow = cur * Math.pow(1 + m.low, yearsToRet);
-    const curHigh = cur * Math.pow(1 + m.high, yearsToRet);
+    const curLow = cur * Math.pow(1 + m.low / 12, yearsToRet * 12);
+    const curHigh = cur * Math.pow(1 + m.high / 12, yearsToRet * 12);
     const totalLow = low + curLow + otherAssets;
     const totalHigh = high + curHigh + otherAssets;
     rows.push([m.name, (m.low*100).toFixed(0) + '–' + (m.high*100).toFixed(0) + '%', fmtINR(low) + ' – ' + fmtINR(high), fmtINR(totalLow) + ' – ' + fmtINR(totalHigh), statusPill(totalLow, corpus), m.note]);
@@ -804,7 +816,7 @@ function renderCompare(monthsToRet, yearsToRet, cur, corpus, otherAssets) {
   ['epf','ppf','fd','rd'].forEach(k => {
     const f = FIXED[k];
     const fv = fvAnnuity(amt, f.rate, monthsToRet);
-    const futCur = cur * Math.pow(1 + f.rate, yearsToRet);
+    const futCur = cur * Math.pow(1 + f.rate / 12, yearsToRet * 12);
     const total = fv + futCur + otherAssets;
     rows.push([f.name, (f.rate*100).toFixed(2) + '% (guaranteed)', fmtINR(fv), fmtINR(total), statusPill(total, corpus), f.note]);
   });
@@ -816,10 +828,10 @@ function renderCompare(monthsToRet, yearsToRet, cur, corpus, otherAssets) {
 }
 
 function renderBlend(monthsToRet, yearsToRet, cur, corpus, otherAssets) {
-  const amt = +$('invamt').value;
+  const amt = getVal('invamt');
   let totalWeight = 0;
   const weights = {};
-  BLEND_ORDER.forEach(k => { const w = +$('w-' + k).value; weights[k] = w; totalWeight += w; });
+  BLEND_ORDER.forEach(k => { const w = getVal('w-' + k); weights[k] = w; totalWeight += w; });
   if (totalWeight <= 0) totalWeight = 1;
 
   $('blend-weight-note').textContent = 'Current total weight: ' + BLEND_ORDER.reduce((s,k)=>s+weights[k],0) + ' (auto-normalized to 100% under the hood).';
@@ -837,18 +849,18 @@ function renderBlend(monthsToRet, yearsToRet, cur, corpus, otherAssets) {
   const rMid = blendedRate('base');
   const rHigh = blendedRate('high');
 
-  const custAmt = +$('custamt').value;
-  const custRate = +$('custrate').value / 100;
+  const custAmt = getVal('custamt');
+  const custRate = getVal('custrate') / 100;
   $('custamt-out').value = custAmt;
-  $('custrate-out').value = $('custrate').value;
+  $('custrate-out').value = getVal('custrate');
   const custFV = fvAnnuity(custAmt, custRate, monthsToRet);
 
   const investedLow = fvAnnuity(amt, rLow, monthsToRet);
   const investedMid = fvAnnuity(amt, rMid, monthsToRet);
   const investedHigh = fvAnnuity(amt, rHigh, monthsToRet);
-  const curLow = cur * Math.pow(1 + rLow, yearsToRet);
-  const curMid = cur * Math.pow(1 + rMid, yearsToRet);
-  const curHigh = cur * Math.pow(1 + rHigh, yearsToRet);
+  const curLow = cur * Math.pow(1 + rLow / 12, yearsToRet * 12);
+  const curMid = cur * Math.pow(1 + rMid / 12, yearsToRet * 12);
+  const curHigh = cur * Math.pow(1 + rHigh / 12, yearsToRet * 12);
   const totalLow = investedLow + curLow + custFV + otherAssets;
   const totalMid = investedMid + curMid + custFV + otherAssets;
   const totalHigh = investedHigh + curHigh + custFV + otherAssets;
@@ -860,7 +872,7 @@ function renderBlend(monthsToRet, yearsToRet, cur, corpus, otherAssets) {
   $('out-blend-cur-mid').textContent = fmtINR(curMid);
   $('out-blend-cur-high').textContent = fmtINR(curHigh);
   $('cust-inv-label').textContent = custAmt > 0
-    ? '+ new/custom investment (₹' + custAmt.toLocaleString('en-IN') + '/mo at ' + $('custrate').value + '%):'
+    ? '+ new/custom investment (₹' + custAmt.toLocaleString('en-IN') + '/mo at ' + getVal('custrate') + '%):'
     : '+ new/custom investment (none added):';
   $('out-blend-cust').textContent = fmtINR(custFV);
   $('out-blend-other').textContent = fmtINR(otherAssets);
@@ -872,11 +884,11 @@ function renderBlend(monthsToRet, yearsToRet, cur, corpus, otherAssets) {
 }
 
 function renderSafetyNet() {
-  const exp = +$('exp').value;
-  const ef = +$('ef').value;
-  const efMonths = +$('efmonths').value;
-  const lifeCover = +$('lifecover').value;
-  const healthCover = +$('healthcover').value;
+  const exp = getVal('exp');
+  const ef = getVal('ef');
+  const efMonths = getVal('efmonths');
+  const lifeCover = getVal('lifecover');
+  const healthCover = getVal('healthcover');
 
   $('ef-out').value = ef;
   $('efmonths-out').value = efMonths;
@@ -923,15 +935,15 @@ function simulateSalaryPath(salaryToday, growthRate, monthsToRet, cur, preRate) 
     const salary = salaryToday * Math.pow(1 + growthRate, yearsFrac);
     const saving = salary - expense;
     const contribution = Math.max(saving, 0);
-    corpus = corpus * (1 + preMonthly) + contribution;
+    corpus = (corpus + contribution) * (1 + preMonthly); // contribution at start of month, matching fvAnnuity's convention elsewhere
     snapshots[m] = { salary, expense, saving, corpus };
   }
   return snapshots;
 }
 
 function renderSalaryProjection(salaryToday, monthsToRet, yearsToRet, cur, preRate, retAge, corpusTarget, otherAssets) {
-  const growthRate = +$('salgrowth').value / 100;
-  $('salgrowth-out').value = $('salgrowth').value;
+  const growthRate = getVal('salgrowth') / 100;
+  $('salgrowth-out').value = getVal('salgrowth');
 
   const flatPath = simulateSalaryPath(salaryToday, 0, monthsToRet, cur, preRate);
   const growPath = simulateSalaryPath(salaryToday, growthRate, monthsToRet, cur, preRate);
@@ -967,7 +979,7 @@ function renderSalaryProjection(salaryToday, monthsToRet, yearsToRet, cur, preRa
   const finalGrow = growPath[yearsToRet * 12];
   $('salary-status').innerHTML =
     'At retirement (incl. other assets) — Flat salary path: ' + statusPill(finalFlat.corpus + otherAssets, corpusTarget) +
-    ' &nbsp; | &nbsp; Growing salary path (' + $('salgrowth').value + '%/yr): ' + statusPill(finalGrow.corpus + otherAssets, corpusTarget) +
+    ' &nbsp; | &nbsp; Growing salary path (' + getVal('salgrowth') + '%/yr): ' + statusPill(finalGrow.corpus + otherAssets, corpusTarget) +
     ' &nbsp; vs. corpus target ' + fmtINR(corpusTarget) + '.';
 }
 
@@ -999,24 +1011,74 @@ function renderChart(yearsToRet, yearsInRet, age, futExp) {
   }
 }
 
-['age','retage','life','exp','infl','pre','post','cur','otherassets','geninfl','edupct','eduinfl','healthpct','healthinfl','stepup','invamt','ef','efmonths','lifecover','healthcover','salgrowth','custamt','custrate'].forEach(id => $(id).addEventListener('input', compute));
+['age','retage','life','exp','infl','pre','post','cur','otherassets','geninfl','edupct','eduinfl','healthpct','healthinfl','stepup','invamt','ef','efmonths','lifecover','healthcover','salgrowth','custamt','custrate'].forEach(id => $(id).addEventListener('input', () => {
+  $(outIdFor(id)).value = $(id).value; // dragging the slider updates its paired number box
+  compute();
+}));
 
-// Wire each editable number box back to its slider, so typing a value updates the slider too.
+// Wire each editable number box back to its slider — validate/sync on blur or Enter
+// (not on every keystroke), so partial numbers being typed aren't clamped mid-entry.
+// Soft sanity checks — never block or change the value, just flag it politely.
+const SANITY = {
+  age:        [18, 80,  "This age looks unusual for a retirement plan — please double-check."],
+  retage:     [40, 80,  "This retirement age looks unusual — please double-check."],
+  life:       [50, 110, "This life expectancy looks unusual — please double-check."],
+  pre:        [0, 25,   "A pre-retirement return this high or low is unusual — please double-check."],
+  post:       [0, 20,   "A post-retirement return this high or low is unusual — please double-check."],
+  infl:       [0, 20,   "An inflation rate this high or low is unusual — please double-check."],
+  geninfl:    [0, 20,   "This inflation rate looks unusual — please double-check."],
+  eduinfl:    [0, 25,   "This inflation rate looks unusual — please double-check."],
+  healthinfl: [0, 25,   "This inflation rate looks unusual — please double-check."],
+  edupct:     [0, 100,  "This should usually be between 0 and 100% of your expenses."],
+  healthpct:  [0, 100,  "This should usually be between 0 and 100% of your expenses."],
+  stepup:     [0, 30,   "A step-up rate this high is unusual — please double-check."],
+  salgrowth:  [0, 30,   "A salary growth rate this high is unusual — please double-check."],
+  custrate:   [0, 30,   "A rate this high is unusual — please double-check."],
+  efmonths:   [1, 24,   "This many months looks unusual — please double-check."],
+};
+
+(function buildSanityWarnings() {
+  Object.keys(SANITY).forEach(id => {
+    const rangeEl = $(id);
+    if (!rangeEl) return;
+    const field = rangeEl.closest('.field');
+    if (!field) return;
+    const warn = document.createElement('p');
+    warn.className = 'field-warning';
+    warn.id = 'warn-' + id;
+    warn.textContent = SANITY[id][2];
+    field.insertAdjacentElement('afterend', warn);
+  });
+})();
+
+function checkSanity() {
+  Object.keys(SANITY).forEach(id => {
+    const [min, max] = SANITY[id];
+    const v = getVal(id);
+    const warnEl = $('warn-' + id);
+    if (!warnEl) return;
+    warnEl.classList.toggle('show', v < min || v > max);
+  });
+}
+
 const SPECIAL_RANGE_MAP = { 'life-out2': 'lifecover', 'health-out': 'healthcover' };
 document.querySelectorAll('.val-input').forEach(inp => {
   const rangeId = SPECIAL_RANGE_MAP[inp.id] || inp.id.replace(/-out$/, '');
   const rangeEl = document.getElementById(rangeId);
   if (!rangeEl) return;
-  inp.addEventListener('input', () => {
+  let lastValid = parseFloat(inp.value) || 0;
+  function commit() {
     let v = parseFloat(inp.value);
-    if (isNaN(v)) return;
-    const min = parseFloat(inp.min), max = parseFloat(inp.max);
-    if (v < min) v = min;
-    if (v > max) v = max;
-    rangeEl.value = v;
+    if (isNaN(v)) { v = lastValid; } // empty/invalid entry reverts to last valid number, not to a slider limit
+    inp.value = v;
+    lastValid = v;
+    rangeEl.value = v; // if v is outside the slider's own drag range, the browser just clamps the thumb's
+                        // visual position — calculations always read the exact typed value via getVal(), not this.
     compute();
-  });
-  inp.addEventListener('blur', () => { inp.value = rangeEl.value; });
+  }
+  inp.addEventListener('change', commit);
+  inp.addEventListener('blur', commit);
+  inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); commit(); } });
 });
 
 compute();
