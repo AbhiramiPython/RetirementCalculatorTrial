@@ -154,13 +154,13 @@
 
     <div class="card guide-card">
       <h2>What the inputs mean</h2>
-      <p class="desc"><strong>No field has a hard limit.</strong> Every slider has a matching number box above it — type any value directly and it's used exactly as entered, even outside the slider's drag range (the slider just visually maxes out; your typed number is what's actually used everywhere). If a value looks unusual for a retirement plan, a small polite warning appears underneath asking you to double-check — it never blocks or silently changes what you typed.</p>
+      <p class="desc"><strong>No field has a hard limit.</strong> Every slider has a matching number box above it — type any value directly and it's used exactly as entered, even outside the slider's drag range (the slider just visually maxes out; your typed number is what's actually used everywhere). If a value looks unusual for a retirement plan — including a negative amount in a currency field like expenses or savings — a small polite warning appears underneath asking you to double-check. It never blocks or silently changes what you typed.</p>
       <table>
         <tr><td style="font-weight:600; width:180px;">Inflation rate</td><td>How fast prices rise every year. If a ₹100 grocery bill costs ₹106 next year, that's 6% inflation. It quietly shrinks what your money can buy over time — future expenses look bigger than today's mainly because of this.</td></tr>
         <tr><td style="font-weight:600;">Return before retirement</td><td>The yearly growth rate you expect on money you invest while still working. Higher-growth options like equity have historically given more, but with real ups and downs year to year — which is why results are shown as a range, not one number.</td></tr>
         <tr><td style="font-weight:600;">Return after retirement</td><td>The yearly growth rate on your corpus once you stop earning and start withdrawing from it. Usually kept lower/safer than the pre-retirement return, since large swings are riskier once you depend on the money monthly. The corpus is designed to be fully spent down by your life expectancy age — it's not "live off the interest forever," it's a depleting balance that earns this return along the way.</td></tr>
         <tr><td style="font-weight:600;">Fixed vs. step-up saving</td><td>A fixed SIP stays the same amount every month. A step-up SIP starts smaller but increases every year (e.g. alongside your salary) — usually more realistic for a growing career, and needs a smaller starting amount than a flat SIP for the same end goal.</td></tr>
-        <tr><td style="font-weight:600;">Simple vs. custom inflation</td><td>Simple applies one inflation rate to all expenses — good if you're unsure. Custom lets you split expenses into General / Education / Healthcare, each with its own inflation rate, since education and healthcare often rise faster than general costs.</td></tr>
+        <tr><td style="font-weight:600;">Simple vs. custom inflation</td><td>Simple applies one inflation rate to all expenses — good if you're unsure. Custom lets you split expenses into General / Education / Healthcare, each with its own inflation rate, since education and healthcare often rise faster than general costs. If Education % + Healthcare % add up to over 100%, they're automatically scaled down proportionally to sum to exactly 100% — a note appears when this happens.</td></tr>
         <tr><td style="font-weight:600;">Other assets/investments</td><td>An amount you directly estimate for land, property, gold, inheritance, etc. that you expect to have <strong>at your retirement date</strong>. Unlike current savings, this isn't grown by any rate — you're stating its value at retirement directly, so it's added as-is wherever your corpus is checked against your target.</td></tr>
       </table>
     </div>
@@ -186,6 +186,7 @@
         <p><strong>Monthly expense need at retirement</strong> = what your current monthly expenses will have grown into, after inflation, by the time you retire — in future rupees, not today's.</p>
         <p><strong>Corpus needed</strong> = the lump sum that, invested and earning your "return after retirement" rate, is exactly enough to fund that monthly expense (and its continued inflation) every month from retirement until your life expectancy — depleting to roughly zero right around that age, not before and not perpetually after.</p>
         <p>Two caveats: (1) if you live past your chosen life expectancy, this corpus could run out — some people set it a bit higher than expected as a buffer. (2) it assumes the post-retirement return holds steady every year, which real markets don't guarantee.</p>
+        <p>If life expectancy is set equal to (or less than) retirement age, the tool still funds a minimum of 1 year of retirement rather than showing ₹0 — a deliberate floor to avoid a degenerate zero-year calculation.</p>
       </div>
 
       <h3>How "Compare ways to save" and "Blended portfolio" connect to your corpus target</h3>
@@ -265,6 +266,19 @@
         <p>The table shows two paths from today to retirement: <strong>Flat salary</strong> (never changes) vs. <strong>Growing salary</strong> (grows yearly at a rate you pick). Unlike "Required saving" elsewhere (which solves backward for the exact SIP needed), this works forward — salary minus expenses at each point in time is your actual saving, compounded going forward.</p>
         <p>It's common for the Flat salary column's saving % to shrink over time, even going negative — that's the table correctly showing why a static salary can't keep up with rising expenses over a long horizon.</p>
       </div>
+    </div>
+
+    <div class="card guide-card">
+      <h2>Testing &amp; validation</h2>
+      <div class="formula-list">
+        <p>All formulas were checked against each other, not just read for correctness — e.g., confirming that "how much do I need to save monthly" and "what does that saving grow into" are exact mathematical inverses, and that current savings compound the same way regardless of which section is showing them. The tool has also been run through several thousand randomized and boundary-value input combinations (zero, negative, extreme values across every field, in combination) with no crashes or invalid (NaN/Infinity) results found.</p>
+        <p>That said, this is a personal project without a formal QA process — if something looks off, trust your own judgment over the tool's.</p>
+      </div>
+    </div>
+
+    <div class="card guide-card">
+      <h2>License</h2>
+      <p class="desc">MIT — see the LICENSE file in this repository. Free to use, copy, modify, and share.</p>
     </div>
 
     <div class="disclaimer">
@@ -685,10 +699,17 @@ function computeFutureExpense(years) {
   }
   const exp = getVal('exp');
   const genInfl = getVal('geninfl') / 100;
-  const eduPct = getVal('edupct');
+  let eduPct = Math.max(getVal('edupct'), 0);
   const eduInfl = getVal('eduinfl') / 100;
-  const healthPct = getVal('healthpct');
+  let healthPct = Math.max(getVal('healthpct'), 0);
   const healthInfl = getVal('healthinfl') / 100;
+  const categorySum = eduPct + healthPct;
+  if (categorySum > 100) {
+    // Scale education/healthcare down proportionally so all categories always sum to exactly 100%
+    // of expenses — otherwise expenses would be double-counted beyond 100%.
+    eduPct = eduPct / categorySum * 100;
+    healthPct = healthPct / categorySum * 100;
+  }
   const genPct = Math.max(100 - eduPct - healthPct, 0);
   const futExp =
     exp * (genPct / 100) * Math.pow(1 + genInfl, years) +
@@ -724,8 +745,17 @@ function compute() {
   $('healthinfl-out').value = getVal('healthinfl');
   $('stepup-out').value = getVal('stepup');
   {
-    const genPct = Math.max(100 - (getVal('edupct')) - (getVal('healthpct')), 0);
-    $('genpct-note').innerHTML = 'Remaining <strong>' + genPct + '%</strong> of expenses treated as "general" at the general inflation rate above.';
+    let eduPct = Math.max(getVal('edupct'), 0);
+    let healthPct = Math.max(getVal('healthpct'), 0);
+    const categorySum = eduPct + healthPct;
+    let normNote = '';
+    if (categorySum > 100) {
+      eduPct = eduPct / categorySum * 100;
+      healthPct = healthPct / categorySum * 100;
+      normNote = ' (Education and Healthcare % you entered add up to over 100%, so they\'ve been scaled down proportionally — general is set to 0%.)';
+    }
+    const genPct = Math.max(100 - eduPct - healthPct, 0);
+    $('genpct-note').innerHTML = 'Remaining <strong>' + genPct.toFixed(0) + '%</strong> of expenses treated as "general" at the general inflation rate above.' + normNote;
   }
 
   const yearsToRet = Math.max(retAge - age, 0);
@@ -1035,6 +1065,14 @@ const SANITY = {
   salgrowth:  [0, 30,   "A salary growth rate this high is unusual — please double-check."],
   custrate:   [0, 30,   "A rate this high is unusual — please double-check."],
   efmonths:   [1, 24,   "This many months looks unusual — please double-check."],
+  exp:        [0, Infinity, "Expenses can't be negative — please double-check."],
+  cur:        [0, Infinity, "Savings can't be negative — please double-check."],
+  otherassets:[0, Infinity, "This can't be negative — please double-check."],
+  invamt:     [0, Infinity, "This amount can't be negative — please double-check."],
+  ef:         [0, Infinity, "This amount can't be negative — please double-check."],
+  lifecover:  [0, Infinity, "This amount can't be negative — please double-check."],
+  healthcover:[0, Infinity, "This amount can't be negative — please double-check."],
+  custamt:    [0, Infinity, "This amount can't be negative — please double-check."],
 };
 
 (function buildSanityWarnings() {

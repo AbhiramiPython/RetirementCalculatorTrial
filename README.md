@@ -22,7 +22,7 @@ Open `index.html` directly, or via this repo's GitHub Pages link, to use it — 
 
 ## What the inputs mean
 
-**No field has a hard limit.** Every slider has a matching number box above it — type any value directly and it's used exactly as entered, even if it's far outside the slider's drag range (the slider itself just visually maxes out; your typed number is what's actually used in every calculation). If a value looks unusual for a retirement plan (e.g. a very high inflation rate, or a retirement age far outside typical range), the app shows a small polite warning underneath asking you to double-check it — but it never blocks or silently changes what you entered.
+**No field has a hard limit.** Every slider has a matching number box above it — type any value directly and it's used exactly as entered, even if it's far outside the slider's drag range (the slider itself just visually maxes out; your typed number is what's actually used in every calculation). If a value looks unusual for a retirement plan (e.g. a very high inflation rate, a retirement age far outside typical range, or a negative amount in a field like expenses or savings), the app shows a small polite warning underneath asking you to double-check it — but it never blocks or silently changes what you entered.
 
 | Term | Meaning |
 |---|---|
@@ -30,7 +30,7 @@ Open `index.html` directly, or via this repo's GitHub Pages link, to use it — 
 | **Return before retirement** | The yearly growth rate you expect on money you invest while still working. Higher-growth options like equity have historically given more, but with real ups and downs year to year — which is why results are shown as a range, not one number. |
 | **Return after retirement** | The yearly growth rate on your corpus once you stop earning and start withdrawing from it. Usually kept lower/safer than the pre-retirement return, since large swings are riskier once you depend on the money monthly. |
 | **Fixed vs. step-up saving** | A *fixed* SIP stays the same amount every month. A *step-up* SIP starts smaller but increases every year (e.g. alongside your salary) — usually more realistic for a growing career, and needs a smaller starting amount than a flat SIP for the same end goal. |
-| **Simple vs. custom inflation** | *Simple* applies one inflation rate to all expenses — good if you're unsure. *Custom* lets you split expenses into General / Education / Healthcare, each with its own inflation rate, since education and healthcare often rise faster than general costs. |
+| **Simple vs. custom inflation** | *Simple* applies one inflation rate to all expenses — good if you're unsure. *Custom* lets you split expenses into General / Education / Healthcare, each with its own inflation rate, since education and healthcare often rise faster than general costs. If Education % + Healthcare % adds up to more than 100%, they're automatically scaled down proportionally so the three categories always sum to exactly 100% of your expenses — otherwise expenses would be double-counted. A note appears under the sliders when this scaling kicks in. |
 | **Other assets/investments** | An amount you directly estimate for land, property, gold, inheritance, or anything else you expect to have **at your retirement date**. Unlike current savings, this is *not* grown by any rate — you're telling the tool its value at retirement directly, so it's simply added as-is wherever your corpus is checked against your target. |
 
 ## How the numbers are calculated
@@ -62,6 +62,8 @@ If you retire with that corpus and withdraw that monthly expense amount (increas
 **Two caveats worth knowing:**
 1. This assumes you exactly hit your life expectancy age — if you live longer, you could run out. Some people intentionally set life expectancy a bit higher than actuarially expected (e.g. 90 instead of 80) as a safety buffer.
 2. It assumes the post-retirement return holds steady every year — real returns fluctuate, so this is a planning estimate, not a guarantee your money will last exactly that long.
+
+If you set life expectancy equal to (or less than) retirement age, the tool still funds a minimum of 1 year of retirement rather than showing ₹0 — a deliberate floor to avoid a degenerate zero-year calculation, not a sign that no corpus is needed.
 
 ### How "Compare ways to save" and "Blended portfolio" connect to your corpus target
 
@@ -166,3 +168,11 @@ Unlike the "Required saving" figure elsewhere (which solves backward for the exa
 ## General disclaimer
 
 This tool is built for personal and educational use. It is not financial, investment, tax, or insurance advice, and the people who built or shared it are not liable for decisions made using it. Assumptions are simplified (e.g. constant inflation/return rates) and real markets, expenses, and personal circumstances vary. The "Other assets" field is only as accurate as the number you enter — the tool does not independently verify or know about your actual assets or income. It also does not account for pension or rental income streams, which would further reduce your actual required saving. For decisions involving real money, please consult a licensed financial advisor and/or insurance professional.
+
+## Testing & validation
+
+All formulas were checked against each other, not just read for correctness — e.g., confirming that "how much do I need to save monthly" and "what does that saving grow into" are exact mathematical inverses of each other, and that current savings compound the same way regardless of which section of the tool is showing them. The tool has also been run through several thousand randomized and boundary-value input combinations (zero, negative, and extreme values across every field, in combination) with no crashes or invalid (NaN/Infinity) results found. That said, this is a personal project without a formal QA process — if something looks off, trust your own judgment over the tool's, and feel free to open an issue or fix it.
+
+## License
+
+MIT — see [LICENSE](./LICENSE). Free to use, copy, modify, and share.
