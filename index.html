@@ -151,6 +151,7 @@
         <p><strong>Expected</strong> = uses exactly your slider value</p>
         <p><strong>Optimistic</strong> = assumes markets do better than your expected return slider (+3 percentage points) → you'd need to save less per month</p>
       </div>
+      <p class="note">If your current savings and "Other assets" already cover the corpus target even in the Conservative scenario, a green "🎉 Your retirement looks settled!" banner appears instead of leaving you to wonder why the figures show ₹0. This is based on whether the target is genuinely met — not simply on being close to retirement age (which shows ₹0 for a different reason: no time left to invest more). If even the Expected scenario's required saving exceeds your current expenses, a separate warning appears instead.</p>
     </div>
 
     <div class="card guide-card">
@@ -416,6 +417,9 @@
         <p class="value" id="out-salary">-</p>
         <p class="note" style="margin-top:6px;">= expenses + required monthly saving (Expected)</p>
       </div>
+    </div>
+    <div id="settled-banner" style="display:none; margin-top:16px; background:var(--ok-bg); border:1px solid #b9e0c2; border-radius:10px; padding:14px 16px; font-size:14px; color:var(--ok-text); font-weight:500;">
+      🎉 Your retirement looks settled! Your current savings and other assets alone are projected to cover your target — even in the conservative scenario. The numbers below are ₹0 because there's no additional monthly saving required for this goal.
     </div>
     <p class="desc" style="margin-top:16px;" id="sip-title">Required monthly saving — depends on how markets actually perform, so shown as a range:</p>
     <div class="scenario-row">
@@ -787,10 +791,12 @@ function compute() {
   };
   const stepUpRate = getVal('stepup') / 100;
   const sipVals = {};
+  let gapLow = 0;
   ['low', 'mid', 'high'].forEach(k => {
     const scenarioReturn = scenarios[k];
     const futCur = cur * Math.pow(1 + scenarioReturn / 12, yearsToRet * 12) + otherAssets;
     const gap = Math.max(corpus - futCur, 0);
+    if (k === 'low') gapLow = gap;
     sipVals[k] = sipMode === 'stepup'
       ? requiredStepUp(gap, stepUpRate, scenarioReturn, totalMonthsPre)
       : requiredFixed(gap, scenarioReturn, totalMonthsPre);
@@ -800,6 +806,11 @@ function compute() {
   $('out-sip-high').textContent = fmtINR(sipVals.high) + '/mo';
   // low return assumption -> higher required saving (shown as "Conservative")
   // high return assumption -> lower required saving (shown as "Optimistic")
+
+  const settledBanner = $('settled-banner');
+  // Only celebrate when current savings/assets genuinely already cover the target (gapLow === 0),
+  // computed independently of whether there's still time left to invest more.
+  settledBanner.style.display = (gapLow <= 0) ? 'block' : 'none';
 
   const requiredSalary = exp + sipVals.mid;
   $('out-salary').textContent = fmtINR(requiredSalary) + '/mo';

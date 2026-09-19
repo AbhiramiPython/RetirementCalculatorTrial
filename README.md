@@ -20,6 +20,10 @@ Open `index.html` directly, or via this repo's GitHub Pages link, to use it — 
 - **Expected** = uses exactly your slider value
 - **Optimistic** = assumes markets do *better* than your expected return slider (+3 percentage points) → you'd need to save *less* per month
 
+If your current savings and "Other assets" already cover the corpus target even in the **Conservative** scenario, a green "🎉 Your retirement looks settled!" banner appears above these figures instead of leaving you to wonder why they all show ₹0. This check is based on whether the target is genuinely already met — not merely on retirement age being very close (which would also show ₹0, for the different reason that there's no time left to invest more, not because the goal is met).
+
+If even the **Expected** scenario's required saving exceeds your current expenses, a separate amber warning appears instead, noting that a flat/step-up SIP alone may not realistically close the gap at these settings.
+
 ## What the inputs mean
 
 **No field has a hard limit.** Every slider has a matching number box above it — type any value directly and it's used exactly as entered, even if it's far outside the slider's drag range (the slider itself just visually maxes out; your typed number is what's actually used in every calculation). If a value looks unusual for a retirement plan (e.g. a very high inflation rate, a retirement age far outside typical range, or a negative amount in a field like expenses or savings), the app shows a small polite warning underneath asking you to double-check it — but it never blocks or silently changes what you entered.
