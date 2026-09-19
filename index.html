@@ -827,6 +827,10 @@ function statusPill(total, corpus) {
   return '<span class="status-pill status-warn">Shortfall ' + fmtINR(corpus - total) + '</span>';
 }
 
+function statusRange(totalLow, totalHigh, corpus) {
+  return statusPill(totalLow, corpus) + ' – ' + statusPill(totalHigh, corpus);
+}
+
 function renderCompare(monthsToRet, yearsToRet, cur, corpus, otherAssets) {
   const amt = getVal('invamt');
   $('invamt-out').value = amt;
@@ -841,7 +845,7 @@ function renderCompare(monthsToRet, yearsToRet, cur, corpus, otherAssets) {
     const curHigh = cur * Math.pow(1 + m.high / 12, yearsToRet * 12);
     const totalLow = low + curLow + otherAssets;
     const totalHigh = high + curHigh + otherAssets;
-    rows.push([m.name, (m.low*100).toFixed(0) + '–' + (m.high*100).toFixed(0) + '%', fmtINR(low) + ' – ' + fmtINR(high), fmtINR(totalLow) + ' – ' + fmtINR(totalHigh), statusPill(totalLow, corpus), m.note]);
+    rows.push([m.name, (m.low*100).toFixed(0) + '–' + (m.high*100).toFixed(0) + '%', fmtINR(low) + ' – ' + fmtINR(high), fmtINR(totalLow) + ' – ' + fmtINR(totalHigh), statusRange(totalLow, totalHigh, corpus), m.note]);
   });
   ['epf','ppf','fd','rd'].forEach(k => {
     const f = FIXED[k];
